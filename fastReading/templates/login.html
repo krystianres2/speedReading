@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaloguj się!</title>
+</head>
+<body>
+    {% block content %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <h3>Zaloguj się</h3>
+        
+        {% if form.username.errors %}
+            <p class="error">{{ form.username.errors[0] }}</p>
+        {% endif %}
+        {{ form.username.label }}
+        {{ form.username }}<br>
+        
+        {% if form.password.errors %}
+            <p class="error">{{ form.password.errors[0] }}</p>
+        {% endif %}
+        {{ form.password.label }}
+        {{ form.password }}<br>
+        
+        {{ form.submit() }}
+    </form>
+    {% endblock %}
+</body>
+</html>
