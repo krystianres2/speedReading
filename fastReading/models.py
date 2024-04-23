@@ -1,6 +1,6 @@
 from fastReading import db, login_manager
 from fastReading import bcrypt
-from flask_login import UserMixin
+from flask_login import UserMixin # type: ignore
 
 
 @login_manager.user_loader
