@@ -4,6 +4,7 @@ $(document).ready(function () {
     let wordIndex = 0;
     let intervalId;
     let startTime;
+    $('#done_btn').hide();
 
     loadText(function (text) {
         words = text.split(/\s+/);
@@ -49,6 +50,8 @@ $(document).ready(function () {
             stopTimer();
             $('#start_btn').prop('disabled', true);
             $('#next_btn').prop('disabled', true);
+            $('#done_btn').show();
+            $('#done_btn').click(summary);
         } else {
             displayWords();
         }
@@ -84,5 +87,21 @@ $(document).ready(function () {
         clearInterval(intervalId);
         // Disable the #next_btn when the timer stops
         $('#next_btn').prop('disabled', true);
+    }
+
+    function summary(){
+        $('body *').not('#wpm_info').hide();
+        let wpmText = $('#wpm_info').text();
+        let wpm = wpmText.split(':')[1].trim();
+        $.ajax({
+            url: '/submit_wpm',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({wpm: wpm}),
+            success: function(response) {
+                console.log(response);
+                window.location.href = response.redirect;
+            }
+        });
     }
 });

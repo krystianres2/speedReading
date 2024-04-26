@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='reports.js') }}"></script>
+    <title>Document</title>
+    <style>#myChart {
+        width: 500px;
+        height: 200px;
+    }</style>
+</head>
+<body>
+    <h4>Średnia prędkość czytania</h4>
+    <div id="Wpm_chart">
+        <canvas id="myChart" width="500px"></canvas>
+    </div>
+</body>
+</html>
