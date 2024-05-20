@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), unique=True, nullable=False)
     password_hash = db.Column(db.String(60), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=1)
+    points = db.Column(db.Integer, nullable=False, default=0)
 
     @property
     def password(self):
@@ -33,3 +34,45 @@ class WpmResult(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     user = db.relationship('User', backref=db.backref('wpm_results', lazy=True))
+
+class TextQuiz(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text_file_path = db.Column(db.String(100), unique=True, nullable=False)
+    quiz_file_path = db.Column(db.String(100), unique=True, nullable=False)
+
+class QuizResult(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    score = db.Column(db.Float, nullable=False) #percentage
+    effectivity = db.Column(db.Float, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    user = db.relationship('User', backref=db.backref('quiz_results', lazy=True))
+
+class ReadedTexts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    text_quiz_id = db.Column(db.Integer, db.ForeignKey('text_quiz.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+
+    user = db.relationship('User', backref=db.backref('readed_texts', lazy=True))
+    text_quiz = db.relationship('TextQuiz', backref=db.backref('readed_texts', lazy=True))
+
+class Exercise(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    exerciseName = db.Column(db.String(100), nullable=False)
+
+class ExerciseResult(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    exerciseId = db.Column(db.Integer, db.ForeignKey('exercise.id'), nullable=False)
+    score = db.Column(db.Float, nullable=False) #points
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+
+    exercise = db.relationship('Exercise', backref=db.backref('exercise_results', lazy=True))
+    user = db.relationship('User', backref=db.backref('exercise_results', lazy=True))
+
+    
+    
+
+

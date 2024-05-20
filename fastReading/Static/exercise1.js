@@ -1,107 +1,142 @@
 $(document).ready(function () {
-    let text_content = document.getElementById("text_content");
-    let words;
+    $("body *").hide();
+
+    let text;
     let wordIndex = 0;
+    let maxIndex;
     let intervalId;
     let startTime;
-    $('#done_btn').hide();
-
-    loadText(function (text) {
-        words = text.split(/\s+/);
-        displayWords();
-    });
-
-    $('#start_btn').click(startTimer);
-    $('#next_btn').click(displayNextWords);
-
-    $('#next_btn').prop('disabled', true);
-
-    $('#reset_btn').click(function () {
-        clearInterval(intervalId);
-        wordIndex = 0;
-        displayWords();
-        $('#time').text('00-00-00');
-        $('#wpm_info').text('Words per minute: 0.00');
-        $('#phrase_info').text(`Read/Total phrases: 0/${Math.ceil(words.length / 5)}`);
-        $('#start_btn').prop('disabled', false);
-        $('#next_btn').prop('disabled', true);
-    });
-
-    function loadText(callback) {
-        $.getJSON("/get_ex1_text", function (data) {
-            let text = data.file_content;
-            console.log(text);
-            callback(text);
-            $('#phrase_info').text(`Read/Total phrases: 0/${Math.ceil(words.length / 5)}`);
-        });
+    let wpm;
+    let wpmIntervalId;
+  
+    function loadText() {
+      $.getJSON("/get_text_quiz", function (data) {
+        text = data.file_content;
+        text = text.split(/\s+/);
+        id = data.id;
+        startExercise(text, id);
+      });
     }
-
-    function displayWords() {
-        let slice = words.slice(wordIndex, wordIndex + 5);
-        text_content.innerHTML = slice.join(' ');
+    loadText();
+  
+    function displayWords(text) {
+      let slice = text.slice(wordIndex, wordIndex + 5);
+      $("#text_content").text(slice.join(" "));
     }
-
-    function displayNextWords() {
-        let wordsDisplayed = Math.min(5, words.length - wordIndex);
-        wordIndex += wordsDisplayed;
-        console.log(wordIndex);
-        if (wordIndex >= words.length) {
-            // If there are no more words, stop the timer and disable all buttons
-            stopTimer();
-            $('#start_btn').prop('disabled', true);
-            $('#next_btn').prop('disabled', true);
-            $('#done_btn').show();
-            $('#done_btn').click(summary);
-        } else {
-            displayWords();
-        }
-    
-        let currentTime = new Date().getTime();
-        let timeInMinutes = (currentTime - startTime) / 60000;
-        let wpm = wordIndex / timeInMinutes;
-    
-        $('#wpm_info').text(`Words per minute: ${wpm.toFixed(2)}`);
-        $('#phrase_info').text(`Read/Total phrases: ${Math.ceil(wordIndex / 5)}/${Math.ceil(words.length / 5)}`);
+  
+    function displayNextWords(text, id) {
+      wordIndex += 5;
+      if (wordIndex >= maxIndex - 5) {
+        displayWords(text);
+        $("#phrase_info").text(
+          `Przeczytane/Całkowite: ${Math.ceil(wordIndex / 5)}/${
+            Math.ceil(maxIndex / 5) - 1
+          }`
+        );
+        finishReading(text, id);
+      } else {
+        displayWords(text);
+        $("#phrase_info").text(
+          `Przeczytane/Całkowite: ${Math.ceil(wordIndex / 5)}/${
+            Math.ceil(maxIndex / 5) - 1
+          }`
+        );
+      }
     }
-
+  
+    function finishReading(text, id) {
+      $("#next-button").prop("disabled", true);
+      stopTimer();
+      stopWpmCalculation();
+      $("#done_btn").show();
+      $("#done_btn").click(function () {
+        submitWpm();
+      });
+    }
+  
+    function startDisplay() {
+      $("#next-button").prop("disabled", false);
+      $("#text_content").show();
+      $("#next-button").show();
+      $("#phrase_info").show();
+      $("#phrase_info").text(
+        `Przeczytane/Całkowite: ${Math.ceil(wordIndex / 5)}/${
+          Math.ceil(maxIndex / 5) - 1
+        }`
+      );
+      $("#time").show();
+      $("#time").text("00-00");
+      $("#wpm_info").show();
+    }
+  
     function startTimer() {
-        let totalSeconds = 0;
-        startTime = new Date().getTime();
-
-        intervalId = setInterval(function () {
-            totalSeconds++;
-
-            let seconds = totalSeconds % 60;
-            let totalMinutes = Math.floor(totalSeconds / 60);
-            let minutes = totalMinutes % 60;
-            let hours = Math.floor(totalMinutes / 60);
-
-            $('#time').text(`${hours.toString().padStart(2, '0')}-${minutes.toString().padStart(2, '0')}-${seconds.toString().padStart(2, '0')}`);
-        }, 1000);
-
-        // Enable the #next_btn when the timer starts
-        $('#next_btn').prop('disabled', false);
+      let totalSeconds = 0;
+      startTime = new Date().getTime();
+  
+      intervalId = setInterval(function () {
+        totalSeconds++;
+  
+        let seconds = totalSeconds % 60;
+        let totalMinutes = Math.floor(totalSeconds / 60);
+        let minutes = totalMinutes % 60;
+  
+        $("#time").text(
+          `${minutes.toString().padStart(2, "0")}-${seconds
+            .toString()
+            .padStart(2, "0")}`
+        );
+      }, 1000);
     }
-
+  
     function stopTimer() {
-        clearInterval(intervalId);
-        // Disable the #next_btn when the timer stops
-        $('#next_btn').prop('disabled', true);
+      clearInterval(intervalId);
     }
-
-    function summary(){
-        $('body *').not('#wpm_info').hide();
-        let wpmText = $('#wpm_info').text();
-        let wpm = wpmText.split(':')[1].trim();
-        $.ajax({
-            url: '/submit_wpm',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({wpm: wpm}),
-            success: function(response) {
-                console.log(response);
-                window.location.href = response.redirect;
-            }
+  
+    function startWpmCalculation() {
+      wpmIntervalId = setInterval(calculateWpm, 200);
+    }
+  
+    function stopWpmCalculation() {
+      clearInterval(wpmIntervalId);
+    }
+  
+    function calculateWpm() {
+      let currentTime = new Date().getTime();
+      let timeInMinutes = (currentTime - startTime) / 60000;
+      wpm = wordIndex / timeInMinutes;
+      $("#wpm_info").text(`Słowa na minutę: ${wpm.toFixed(2)}`);
+    }
+  
+    function startExercise(text, id) {
+      maxIndex = text.length;
+      console.log(maxIndex);
+      $("#start_btn").show();
+      startDisplay();
+      displayWords(text);
+      $("#next-button").prop("disabled", true);
+      $("#start_btn").click(function () {
+        $("#start_btn").hide();
+        startDisplay();
+        displayWords(text);
+        startTimer();
+        calculateWpm();
+        startWpmCalculation();
+        $("#next-button").click(function () {
+          displayNextWords(text, id);
         });
+      });
     }
+    function submitWpm() {
+        $.ajax({
+          url: "/submit_wpm",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ wpm: wpm, id: id }),
+          success: function (response) {
+            console.log(response);
+            window.location.href = response.redirect;
+          },
+        });
+      }
+
 });

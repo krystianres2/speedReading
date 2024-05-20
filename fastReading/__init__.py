@@ -2,6 +2,7 @@ from flask import Flask # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 from flask_bcrypt import Bcrypt # type: ignore
 from flask_login import LoginManager # type: ignore
+from flask_migrate import Migrate # type: ignore
 
 
 app = Flask(__name__)
