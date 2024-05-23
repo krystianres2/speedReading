@@ -15,46 +15,27 @@ $(document).ready(function () {
       text = data.file_content;
       text = text.split(/\s+/);
       id = data.id;
+      quizData = JSON.parse(data.quiz_content);
       console.log(data.average_wpm);
-      // speed = (1 / (data.average_wpm / 60)) * 2 * 1.1;
-      speed=((2 / data.average_wpm)* 60)*1000;
-      console.log(speed);
-      startExercise(text, id);
+      speed = (2 / data.average_wpm) * 60 * 1000;
+      startExercise(text, id, quizData);
     });
   }
   loadText();
 
-  function displayWords(text) {
-    let slice = text.slice(wordIndex, wordIndex + numOfWords);
-    $("#text_content").text(slice.join(" "));
-  }
-
-  function displayNextWords(text, id) {
-    wordIndex += numOfWords;
-    if (wordIndex >= maxIndex - numOfWords) {
+  function startExercise(text, id, quizData) {
+    maxIndex = text.length;
+    $("#start_btn").show();
+    startDisplay();
+    displayWords(text);
+    $("#start_btn").click(function () {
+      $("#start_btn").hide();
+      startDisplay();
       displayWords(text);
-      $("#phrase_info").text(
-        `Przeczytane/Całkowite: ${Math.ceil(wordIndex / numOfWords)}/${
-          Math.ceil(maxIndex / numOfWords) - 1
-        }`
-      );
-      finishReading(text, id);
-    } else {
-      displayWords(text);
-      $("#phrase_info").text(
-        `Przeczytane/Całkowite: ${Math.ceil(wordIndex / numOfWords)}/${
-          Math.ceil(maxIndex / numOfWords) - 1
-        }`
-      );
-    }
-  }
-
-  function finishReading(text, id) {
-    clearInterval(intervalId);
-    stopTimer();
-    $("#done_btn").show();
-    $("#done_btn").click(function () {
-      submitReading();
+      startTimer();
+      intervalId = setInterval(function () {
+        displayNextWords(text, id, quizData);
+      }, speed);
     });
   }
 
@@ -70,49 +51,37 @@ $(document).ready(function () {
     $("#time").text("00-00");
   }
 
-  function startTimer() {
-    let totalSeconds = 0;
-    startTime = new Date().getTime();
-
-    intervalId2 = setInterval(function () {
-      totalSeconds++;
-
-      let seconds = totalSeconds % 60;
-      let totalMinutes = Math.floor(totalSeconds / 60);
-      let minutes = totalMinutes % 60;
-
-      $("#time").text(
-        `${minutes.toString().padStart(2, "0")}-${seconds
-          .toString()
-          .padStart(2, "0")}`
-      );
-    }, 1000);
+  function displayWords(text) {
+    let slice = text.slice(wordIndex, wordIndex + numOfWords);
+    $("#text_content").text(slice.join(" "));
   }
 
-  function stopTimer() {
-    clearInterval(intervalId2);
-  }
-
-  function startExercise(text, id) {
-    maxIndex = text.length;
-    $("#start_btn").show();
-    startDisplay();
-    displayWords(text);
-    $("#start_btn").click(function () {
-      $("#start_btn").hide();
-      startDisplay();
+  function displayNextWords(text, id, quizData) {
+    wordIndex += numOfWords;
+    if (wordIndex >= maxIndex - numOfWords) {
       displayWords(text);
-      startTimer();
-      intervalId = setInterval(function () {
-        displayNextWords(text, id);
-      }, speed);
-    });
+      $("#phrase_info").text(
+        `Przeczytane/Całkowite: ${Math.ceil(wordIndex / numOfWords)}/${
+          Math.ceil(maxIndex / numOfWords) - 1
+        }`
+      );
+      finishReading(id, quizData);
+    } else {
+      displayWords(text);
+      $("#phrase_info").text(
+        `Przeczytane/Całkowite: ${Math.ceil(wordIndex / numOfWords)}/${
+          Math.ceil(maxIndex / numOfWords) - 1
+        }`
+      );
+    }
   }
 
-  function getQuizData() {
-    $.getJSON("/get_text_quiz", function (data) {
-      let quizData = JSON.parse(data.quiz_content);
-      quiz(quizData);
+  function finishReading(id, quizData) {
+    clearInterval(intervalId);
+    stopTimer();
+    $("#done_btn").show();
+    $("#done_btn").click(function () {
+      submitReading(id, quizData);
     });
   }
 
@@ -183,7 +152,7 @@ $(document).ready(function () {
     return correctAnswers;
   }
 
-  function submitReading() {
+  function submitReading(id, quizData) {
     $.ajax({
       url: "/submit_readed_text",
       type: "POST",
@@ -191,7 +160,7 @@ $(document).ready(function () {
       data: JSON.stringify({ id: id }),
       success: function (response) {
         console.log(response);
-        getQuizData();
+        quiz(quizData);
       },
     });
   }
@@ -210,5 +179,28 @@ $(document).ready(function () {
         window.location.href = response.redirect;
       },
     });
+  }
+
+  function startTimer() {
+    let totalSeconds = 0;
+    startTime = new Date().getTime();
+
+    intervalId2 = setInterval(function () {
+      totalSeconds++;
+
+      let seconds = totalSeconds % 60;
+      let totalMinutes = Math.floor(totalSeconds / 60);
+      let minutes = totalMinutes % 60;
+
+      $("#time").text(
+        `${minutes.toString().padStart(2, "0")}-${seconds
+          .toString()
+          .padStart(2, "0")}`
+      );
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(intervalId2);
   }
 });

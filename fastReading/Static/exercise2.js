@@ -14,7 +14,8 @@ $(document).ready(function () {
       text = data.file_content;
       text = text.split(/\s+/);
       id = data.id;
-      startExercise(text, id);
+      quizData = JSON.parse(data.quiz_content);
+      startExercise(text, id, quizData);
     });
   }
   loadText();
@@ -24,7 +25,7 @@ $(document).ready(function () {
     $("#text_content").text(slice.join(" "));
   }
 
-  function displayNextWords(text, id) {
+  function displayNextWords(text, id, quiuzData) {
     wordIndex += 5;
     if (wordIndex >= maxIndex - 5) {
       displayWords(text);
@@ -33,7 +34,7 @@ $(document).ready(function () {
           Math.ceil(maxIndex / 5) - 1
         }`
       );
-      finishReading(text, id);
+      finishReading(id, quizData);
     } else {
       displayWords(text);
       $("#phrase_info").text(
@@ -44,13 +45,23 @@ $(document).ready(function () {
     }
   }
 
-  function finishReading(text, id) {
+  function startExercise(text, id) {
+    maxIndex = text.length;
+    console.log(maxIndex);
+    $("#start_btn").show();
+    startDisplay();
+    displayWords(text);
     $("#next-button").prop("disabled", true);
-    stopTimer();
-    stopWpmCalculation();
-    $("#done_btn").show();
-    $("#done_btn").click(function () {
-      submitWpm();
+    $("#start_btn").click(function () {
+      $("#start_btn").hide();
+      startDisplay();
+      displayWords(text);
+      startTimer();
+      calculateWpm();
+      startWpmCalculation();
+      $("#next-button").click(function () {
+        displayNextWords(text, id);
+      });
     });
   }
 
@@ -67,6 +78,16 @@ $(document).ready(function () {
     $("#time").show();
     $("#time").text("00-00");
     $("#wpm_info").show();
+  }
+
+  function finishReading(id, quizData) {
+    $("#next-button").prop("disabled", true);
+    stopTimer();
+    stopWpmCalculation();
+    $("#done_btn").show();
+    $("#done_btn").click(function () {
+      submitWpm(id, quizData);
+    });
   }
 
   function startTimer() {
@@ -105,33 +126,6 @@ $(document).ready(function () {
     let timeInMinutes = (currentTime - startTime) / 60000;
     wpm = wordIndex / timeInMinutes;
     $("#wpm_info").text(`Słowa na minutę: ${wpm.toFixed(2)}`);
-  }
-
-  function startExercise(text, id) {
-    maxIndex = text.length;
-    console.log(maxIndex);
-    $("#start_btn").show();
-    startDisplay();
-    displayWords(text);
-    $("#next-button").prop("disabled", true);
-    $("#start_btn").click(function () {
-      $("#start_btn").hide();
-      startDisplay();
-      displayWords(text);
-      startTimer();
-      calculateWpm();
-      startWpmCalculation();
-      $("#next-button").click(function () {
-        displayNextWords(text, id);
-      });
-    });
-  }
-
-  function getQuizData() {
-    $.getJSON("/get_text_quiz", function (data) {
-      let quizData = JSON.parse(data.quiz_content);
-      quiz(quizData);
-    });
   }
 
   function quiz(quizData) {
@@ -201,7 +195,7 @@ $(document).ready(function () {
     return correctAnswers;
   }
 
-  function submitWpm() {
+  function submitWpm(id, quizData) {
     $.ajax({
       url: "/submit_wpm",
       type: "POST",
@@ -209,21 +203,20 @@ $(document).ready(function () {
       data: JSON.stringify({ wpm: wpm, id: id }),
       success: function (response) {
         console.log(response);
-        getQuizData();
+        quiz(quizData);
       },
     });
   }
 
   function submitQuiz(correctAnswers, length) {
     let percentage = (correctAnswers / length) * 100;
-    let effectivity = wpm / (percentage / 100);
+    let effectivity = wpm * (percentage / 100);
     $.ajax({
       url: "/submit_quiz",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify({
         percentage: percentage,
-        correctAnswers: correctAnswers,
         effectivity: effectivity,
       }),
       success: function (response) {

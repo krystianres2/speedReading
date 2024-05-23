@@ -39,7 +39,7 @@ def submit_wpm():
     result = WpmResult(wpm=wpm, timestamp=datetime.now(), user_id=current_user.id)
     db.session.add(result)
     db.session.commit()
-
+    print(data.get('id'))
     result2 = ReadedTexts(user_id=current_user.id, text_quiz_id=data.get('id'), timestamp=datetime.now())
     db.session.add(result2)
     db.session.commit()
@@ -142,6 +142,17 @@ def submit_rsvp():
 def grouping_page():
     return render_template('grouping.html')
 
+@app.route('/submit_grouping', methods=['POST'])
+def submit_grouping():
+    weight = 25
+    data = request.get_json()
+    score = (data.get('percentage') / 100) * weight
+    result = ExerciseResult(user_id=current_user.id, exerciseId=2, score=score, timestamp=datetime.now())
+    db.session.add(result)
+    db.session.commit()
+    current_user.points += score
+    db.session.commit()
+    return jsonify({'redirect': url_for('main_page')})
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
