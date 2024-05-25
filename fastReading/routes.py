@@ -1,5 +1,5 @@
 from fastReading import app
-from flask import render_template, redirect, url_for, request, jsonify # type: ignore
+from flask import render_template, redirect, url_for, request, jsonify, Response, flash # type: ignore
 from fastReading.models import User, WpmResult, TextQuiz, QuizResult, ReadedTexts, Exercise, ExerciseResult
 from fastReading.forms import RegisterForm, LoginForm
 from fastReading import db
@@ -45,10 +45,6 @@ def submit_wpm():
     db.session.commit()
     print(data.get('id'))
     return jsonify({'redirect': url_for('main_page')})
-
-@app.route('/dashboard/reports')
-def reports_page():
-    return render_template('reports.html')
 
 @app.route('/exercise2')
 def exercise2_page():
@@ -154,6 +150,16 @@ def submit_grouping():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
+@app.route('/dashboard/progress')
+def reports_page():
+    return render_template('progress.html')
+
+@app.route('/get_progress_data', methods=['GET'])
+def get_reports_data():
+    results = WpmResult.query.filter_by(user_id=current_user.id).order_by(WpmResult.timestamp).all()
+    data = [{'wpm': result.wpm, 'timestamp': result.timestamp.strftime('%Y-%m-%d %H:%M:%S')} for result in results]
+    return jsonify(data)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
@@ -174,4 +180,6 @@ def login_page():
         if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
             login_user(attempted_user)
             return redirect(url_for('main_page'))
+        else:
+            flash('Nazwa użytkownika lub hasło są niepoprawne, spróbuj ponownie później', 'error')
     return render_template('login.html', form=form)

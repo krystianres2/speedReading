@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #0056b3;
+}
+  
+  /* Add more CSS rules as needed */

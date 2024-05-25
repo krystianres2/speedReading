@@ -14,13 +14,13 @@ class RegisterForm(FlaskForm):
         if email:
             raise ValidationError('Istnieje już konto z podanym adresem e-mail.')
         
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', 'Hasła muszą być takie same.')])
-    submit = SubmitField('Sign Up')
+    username = StringField('Nazwa użytkownika', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email(message='Niepoprawny adres e-mail.')])
+    password = PasswordField('Hasło', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Powtórz hasło', validators=[DataRequired(), EqualTo('password', 'Hasła muszą być takie same.')])
+    submit = SubmitField('Zarejestruj się')
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    username = StringField('Nazwa użytkownika', validators=[DataRequired(), Length(min=2, max=20)])
+    password = PasswordField('Hasło', validators=[DataRequired()])
+    submit = SubmitField('Zaloguj się')

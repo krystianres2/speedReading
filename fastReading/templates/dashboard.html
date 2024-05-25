@@ -1,25 +1,28 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main</title>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('home_page') }}">Home</a></li>
-            {% if current_user.is_authenticated %}
-            <li>{{ current_user.username }}</li>
-            {% endif %}
-        </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='dashboard.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a class="nav-link" href="{{ url_for('home_page') }}">Home</a></li>
+        {% if current_user.is_authenticated %}
+        <li>{{ current_user.username }}</li>
+        {% endif %}
+      </ul>
     </nav>
-    <a href="{{ url_for('exercise1_page')}}">Ćwiczenie 1</a>
-    <a href="{{ url_for('exercise2_page')}}">Ćwiczenie 2</a>
-    <a href="{{ url_for('reports_page')}}">Raporty</a>
-    <a href="{{ url_for('training_page')}}">Trening</a>
-
-</body>
+    <a class="nav-link" href="{{ url_for('exercise1_page')}}">Ćwiczenie 1</a>
+    <a class="nav-link" href="{{ url_for('exercise2_page')}}">Ćwiczenie 2</a>
+    <a class="nav-link" href="{{ url_for('reports_page')}}">Raporty</a>
+    <a class="nav-link" href="{{ url_for('training_page')}}">Trening</a>
+  </body>
 </html>
 {% endblock %}
