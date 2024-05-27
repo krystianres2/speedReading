@@ -1,0 +1,31 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='dashboard.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul class="nav-links-container">
+        <li><a class="nav-link" href="{{ url_for('home_page') }}">Strona główna</a></li>
+        <div class="right-links">
+          {% if current_user.is_authenticated %}
+          <li>{{ current_user.username }} - Level: {{ current_user.level }}</li>
+          {% endif %}
+          <li><a class="logout-link" href="{{ url_for('logout_page') }}">Wyloguj się</a></li>
+        </div>
+      </ul>
+    </nav>
+    <a class="nav-link" href="{{ url_for('exercise1_page')}}">Ćwiczenie 1</a>
+    <a class="nav-link" href="{{ url_for('exercise2_page')}}">Ćwiczenie 2</a>
+    <a class="nav-link" href="{{ url_for('reports_page')}}">Raporty</a>
+    <a class="nav-link" href="{{ url_for('training_page')}}">Trening</a>
+  </body>
+</html>
+{% endblock %}

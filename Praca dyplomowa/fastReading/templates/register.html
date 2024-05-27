@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zarejestruj się!</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='register.css') }}"
+    />
+  </head>
+  <body>
+    {% block content %}
+    <div class="form-container">
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <h3>Załóż konto</h3>
+
+        <div class="form-group">
+          {% if form.username.errors %}
+          <p class="error">{{ form.username.errors[0] }}</p>
+          {% endif %} {{ form.username.label(class="form-label") }} {{
+          form.username(class="form-input") }}
+        </div>
+
+        <div class="form-group">
+          {% if form.email.errors %}
+          <p class="error">{{ form.email.errors[0] }}</p>
+          {% endif %} {{ form.email.label(class="form-label") }} {{
+          form.email(class="form-input") }}
+        </div>
+
+        <div class="form-group">
+          {% if form.password.errors %}
+          <p class="error">{{ form.password.errors[0] }}</p>
+          {% endif %} {{ form.password.label(class="form-label") }} {{
+          form.password(class="form-input") }}
+        </div>
+
+        <div class="form-group">
+          {% if form.confirm_password.errors %}
+          <p class="error">{{ form.confirm_password.errors[0] }}</p>
+          {% endif %} {{ form.confirm_password.label(class="form-label") }} {{
+          form.confirm_password(class="form-input") }}
+        </div>
+
+        {{ form.submit(class="form-button") }}
+      </form>
+    </div>
+    {% endblock %}
+  </body>
+</html>

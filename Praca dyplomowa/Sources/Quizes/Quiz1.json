@@ -1,0 +1,54 @@
+{
+  "questions": [
+    {
+      "question": "Jaki jest związek głównego bohatera z domem?",
+      "options": [
+        "Nigdy go wcześniej nie widział.",
+        "Mieszkał tam jako dziecko.",
+        "Sam go zbudował.",
+        "Właśnie go kupił."
+      ],
+      "correct_answer": "Mieszkał tam jako dziecko."
+    },
+    {
+      "question": "Co główny bohater znalazł w pokoju, do którego wszedł?",
+      "options": [
+        "Był pusty.",
+        "Był pełen mebli.",
+        "Był to pokój kobiety.",
+        "Był to magazyn."
+      ],
+      "correct_answer": "Był to pokój kobiety."
+    },
+    {
+      "question": "Kim jest stary wujek wspomniany w tekście?",
+      "options": [
+        "Ojcem głównego bohatera.",
+        "Bratem głównego bohatera.",
+        "Właścicielem domu.",
+        "Nauczycielem głównego bohatera."
+      ],
+      "correct_answer": "Właścicielem domu."
+    },
+    {
+      "question": "Co zrobił główny bohater po wejściu do domu?",
+      "options": [
+        "Zawołał służących.",
+        "Zaczął sprzątać.",
+        "Zaczął wspominać swoje dzieciństwo.",
+        "Zaczął szukać swojego starego pokoju."
+      ],
+      "correct_answer": "Zaczął wspominać swoje dzieciństwo."
+    },
+    {
+      "question": "Jakie portrety wisiały na ścianach?",
+      "options": [
+        "Portrety rodziny głównego bohatera.",
+        "Portrety słynnych polskich postaci historycznych.",
+        "Portrety przyjaciół głównego bohatera.",
+        "Portrety nieznanych osób."
+      ],
+      "correct_answer": "Portrety słynnych polskich postaci historycznych."
+    }
+  ]
+}

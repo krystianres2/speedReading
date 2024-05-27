@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='grouping.css') }}"
+    />
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='grouping.js') }}"></script>
+    <title>Grupowanie</title>
+  </head>
+  <body>
+    <p id="exercise_description">
+      Podążaj wzrokiem za otwartą częścią tekstu krok po kroku i zamiast patrzeć
+      na słowo po słowie, spróbuj zobaczyć tekst w każdym otwartym obszarze jako
+      całość, patrząc na środek otwartych wzorów słów.
+    </p>
+    <p id="text_content"></p>
+    <button id="start_btn">Start</button>
+    <p id="time"></p>
+    <button id="done_btn">Done</button>
+    <div id="quiz-container"></div>
+  </body>
+</html>

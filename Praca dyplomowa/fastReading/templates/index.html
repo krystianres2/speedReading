@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strona główna</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main class="container">
+      <section id="register" class="box">
+        <p>Nie masz jeszcze konta?</p>
+        <a class="button" href="{{ url_for('register_page') }}">Zacznij naukę</a>
+      </section>
+      <section id="login" class="box">
+        <p>Masz już konto?</p>
+        <a class="button" href="{{ url_for('login_page') }}">Zaloguj się</a>
+      </section>
+    </main>
+  </body>
+</html>
