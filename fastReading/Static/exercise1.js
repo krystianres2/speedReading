@@ -68,6 +68,7 @@ $(document).ready(function () {
     $("#time").show();
     $("#time").text("00-00");
     $("#wpm_info").show();
+    $("#wpm_info").text("Słowa na minutę: 0.00");
   }
 
   function startTimer() {

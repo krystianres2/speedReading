@@ -63,14 +63,14 @@ $(document).ready(function () {
   
     function groupDataByDay(List) {
       let groupedData = {};
-  
-      let firstDate = new Date(
-        Math.min(...List.map((item) => new Date(item.timestamp)))
-      );
-      let lastDate = new Date(
-        Math.max(...List.map((item) => new Date(item.timestamp)))
-      );
-  
+    
+      let currentDate = new Date();
+      let firstDate = new Date();
+      firstDate.setDate(currentDate.getDate() - 6);
+      let lastDate = new Date();
+      lastDate.setDate(lastDate.getDate()); 
+      console.log(firstDate);
+      console.log(lastDate);
       for (
         let d = new Date(firstDate);
         d <= lastDate;
@@ -82,7 +82,7 @@ $(document).ready(function () {
           ("0" + d.getDate()).slice(-2);
         groupedData[day] = [];
       }
-  
+    
       List.forEach((item) => {
         let date = new Date(item.timestamp);
         let day =
@@ -93,7 +93,7 @@ $(document).ready(function () {
           groupedData[day].push(item.wpm);
         }
       });
-  
+    
       for (let day in groupedData) {
         if (groupedData[day].length > 0) {
           let sum = groupedData[day].reduce((a, b) => a + b, 0);
@@ -103,7 +103,7 @@ $(document).ready(function () {
           groupedData[day] = 0;
         }
       }
-  
+      console.log(groupedData);
       return groupedData;
     }
   

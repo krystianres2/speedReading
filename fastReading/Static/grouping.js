@@ -54,7 +54,7 @@ $(document).ready(function () {
         clearInterval(intervalId);
         finishReading(id, quizData);
       }
-    }, 500);
+    }, speed);
   }
 
   function finishReading(id, quizData) {

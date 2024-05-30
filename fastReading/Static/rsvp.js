@@ -36,6 +36,7 @@ $(document).ready(function () {
       intervalId = setInterval(function () {
         displayNextWords(text, id, quizData);
       }, speed);
+      console.log(speed);
     });
   }
 

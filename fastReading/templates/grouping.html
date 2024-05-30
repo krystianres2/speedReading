@@ -3,18 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      .cover {
-        background-color: #0077ff;
-        color: #0077ff;
-        transition: color 1s;
-        border-radius: 5px;
-        user-select: none;
-      }
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='grouping.css') }}"
+    />
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='grouping.js') }}"></script>
-    <title>Document</title>
+    <title>Grupowanie</title>
   </head>
   <body>
     <p id="exercise_description">
@@ -25,7 +21,7 @@
     <p id="text_content"></p>
     <button id="start_btn">Start</button>
     <p id="time"></p>
-    <button id="done_btn">Done</button>
+    <button id="done_btn">Zakończ</button>
     <div id="quiz-container"></div>
   </body>
 </html>

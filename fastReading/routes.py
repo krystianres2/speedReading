@@ -10,17 +10,21 @@ import json
 @app.route('/')
 @app.route('/home')
 def home_page():
+    logout_user()
     return render_template('index.html')
 
 @app.route('/dashboard')
+@login_required
 def main_page():
     return render_template('dashboard.html')
 
-@app.route('/exercise1')
+@app.route('/dashboard/exercise1')
+@login_required
 def exercise1_page():
     return render_template('exercise1.html')
 
 @app.route('/get_ex1_text')
+@login_required
 def get_ex1_text():
     text_quiz = TextQuiz.query.first()
     if text_quiz is None:
@@ -33,6 +37,7 @@ def get_ex1_text():
     return jsonify({'file_content': text, 'id': text_quiz.id})
 
 @app.route('/submit_wpm', methods=['POST'])
+@login_required
 def submit_wpm():
     data = request.get_json()
     wpm = data.get('wpm')
@@ -46,11 +51,13 @@ def submit_wpm():
     print(data.get('id'))
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/exercise2')
+@app.route('/dashboard/exercise2')
+@login_required
 def exercise2_page():
     return render_template('exercise2.html')
 
 @app.route('/submit_quiz', methods=['POST'])
+@login_required
 def submit_quiz():
     data = request.get_json()
     result = QuizResult(score=data.get('percentage'), effectivity=data.get('effectivity'), timestamp=datetime.now(), user_id=current_user.id)
@@ -60,6 +67,7 @@ def submit_quiz():
     return jsonify({'redirect': url_for('main_page')})
 
 @app.route('/get_text_quiz')
+@login_required
 def get_text_quiz():
     text_quiz = TextQuiz.query.first()
     if text_quiz is None:
@@ -80,12 +88,12 @@ def get_wpm_data():
     data = [{'wpm': result.wpm, 'timestamp': result.timestamp.strftime('%Y-%m-%d %H:%M:%S')} for result in results]
     return jsonify(data)
 
-@app.route('/training')
+@app.route('/dashboard/training')
 @login_required
 def training_page():
     return render_template('training.html')
 
-@app.route('/rsvp')
+@app.route('/dashboard/training/rsvp')
 @login_required
 def rsvp_page():
     return render_template('rsvp.html')
@@ -114,6 +122,7 @@ def get_rsvp_data():
     return jsonify({'file_content': text, 'quiz_content': quiz, 'id': text_quiz.id, 'average_wpm': average_wpm})
 
 @app.route('/submit_readed_text', methods=['POST'])
+@login_required
 def submit_readed_text():
     data = request.get_json()
     result = ReadedTexts(user_id=current_user.id, text_quiz_id=data.get('id'), timestamp=datetime.now())
@@ -122,6 +131,7 @@ def submit_readed_text():
     return jsonify({'redirect': url_for('main_page')})
 
 @app.route('/submit_rsvp', methods=['POST'])
+@login_required
 def submit_rsvp():
     weight = 20
     data = request.get_json()
@@ -133,12 +143,13 @@ def submit_rsvp():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/grouping')
+@app.route('//dashboard/training/grouping')
 @login_required
 def grouping_page():
     return render_template('grouping.html')
 
 @app.route('/submit_grouping', methods=['POST'])
+@login_required
 def submit_grouping():
     weight = 25
     data = request.get_json()
@@ -151,10 +162,12 @@ def submit_grouping():
     return jsonify({'redirect': url_for('main_page')})
 
 @app.route('/dashboard/progress')
+@login_required
 def reports_page():
     return render_template('progress.html')
 
 @app.route('/get_progress_data', methods=['GET'])
+@login_required
 def get_reports_data():
     results = WpmResult.query.filter_by(user_id=current_user.id).order_by(WpmResult.timestamp).all()
     data = [{'wpm': result.wpm, 'timestamp': result.timestamp.strftime('%Y-%m-%d %H:%M:%S')} for result in results]
@@ -183,3 +196,8 @@ def login_page():
         else:
             flash('Nazwa użytkownika lub hasło są niepoprawne, spróbuj ponownie później', 'error')
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout_page():
+    logout_user()
+    return redirect(url_for('home_page'))
