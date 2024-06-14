@@ -2,21 +2,15 @@ $(document).ready(function () {
   $("body *").hide();
 
   let text;
-  let wordIndex = 0;
-  let maxIndex;
   let intervalId;
   let intervalId2;
-  let startTime;
-  let numOfWords = 2;
   let speed = 500;
 
   function getText() {
     $.getJSON("/get_rsvp_data", function (data) {
-      text = data.file_content;
-      text = text.split(/\s+/);
-      id = data.id;
-      quizData = JSON.parse(data.quiz_content);
-      console.log(data.average_wpm);
+      text = data.file_content.split(/\s+/);
+      const id = data.id;
+      const quizData = JSON.parse(data.quiz_content);
       speed = (2 / data.average_wpm) * 60 * 1000;
       displayStart(text);
       $("#start_btn").click(function () {
@@ -29,14 +23,9 @@ $(document).ready(function () {
   getText();
 
   function displayStart(text) {
-    $("#exercise_description").show();
-    $("#text_content").show();
-    $("#start_btn").show();
-    $("#time").show();
+    $("#exercise_description, #text_content, #start_btn, #time").show();
     $("#time").text("00-00");
-
-    text = text.map((word) => `<span class="cover">${word}</span>`);
-    $("#text_content").html(text.join(" "));
+    $("#text_content").html(text.map((word) => `<span class="cover">${word}</span>`).join(" "));
   }
 
   function uncoverText(id, quizData) {
@@ -59,8 +48,7 @@ $(document).ready(function () {
 
   function finishReading(id, quizData) {
     stopTimer();
-    $("#done_btn").show();
-    $("#done_btn").click(function () {
+    $("#done_btn").show().click(function () {
       submitReading(id, quizData);
     });
   }
@@ -111,12 +99,9 @@ $(document).ready(function () {
   }
 
   function renderQuiz(questionsList) {
-    $("#quiz-container").show();
-    $("#quiz-container").empty();
+    $("#quiz-container").show().empty();
     questionsList.forEach((question, questionIndex) => {
-      let questionDiv = $("<div>")
-        .addClass("question")
-        .appendTo("#quiz-container");
+      let questionDiv = $("<div>").addClass("question").appendTo("#quiz-container");
       $("<p>").text(question.question).appendTo(questionDiv);
       question.options.forEach((option, index) => {
         let optionDiv = $("<div>").addClass("option").appendTo(questionDiv);
@@ -152,9 +137,7 @@ $(document).ready(function () {
       url: "/submit_grouping",
       type: "POST",
       contentType: "application/json",
-      data: JSON.stringify({
-        percentage: percentage,
-      }),
+      data: JSON.stringify({ percentage: percentage }),
       success: function (response) {
         console.log(response);
         window.location.href = response.redirect;
@@ -164,20 +147,11 @@ $(document).ready(function () {
 
   function startTimer() {
     let totalSeconds = 0;
-    startTime = new Date().getTime();
-
     intervalId2 = setInterval(function () {
       totalSeconds++;
-
-      let seconds = totalSeconds % 60;
-      let totalMinutes = Math.floor(totalSeconds / 60);
-      let minutes = totalMinutes % 60;
-
-      $("#time").text(
-        `${minutes.toString().padStart(2, "0")}-${seconds
-          .toString()
-          .padStart(2, "0")}`
-      );
+      let minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+      let seconds = (totalSeconds % 60).toString().padStart(2, "0");
+      $("#time").text(`${minutes}-${seconds}`);
     }, 1000);
   }
 

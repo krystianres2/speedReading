@@ -18,20 +18,10 @@
         "Był to pokój kobiety.",
         "Był to magazyn."
       ],
-      "correct_answer": "Był to pokój kobiety."
+      "correct_answer": "Był pełen mebli."
     },
     {
-      "question": "Kim jest stary wujek wspomniany w tekście?",
-      "options": [
-        "Ojcem głównego bohatera.",
-        "Bratem głównego bohatera.",
-        "Właścicielem domu.",
-        "Nauczycielem głównego bohatera."
-      ],
-      "correct_answer": "Właścicielem domu."
-    },
-    {
-      "question": "Co zrobił główny bohater po wejściu do domu?",
+      "question": "Co główny bohater zrobił po wejściu do domu?",
       "options": [
         "Zawołał służących.",
         "Zaczął sprzątać.",
@@ -49,6 +39,16 @@
         "Portrety nieznanych osób."
       ],
       "correct_answer": "Portrety słynnych polskich postaci historycznych."
+    },
+    {
+      "question": "Kim jest stary zegar kurantowy wspomniany w tekście?",
+      "options": [
+        "Pamiątką rodzinną.",
+        "Nowym nabytkiem.",
+        "Zepsutym urządzeniem.",
+        "Elementem dekoracyjnym w ogrodzie."
+      ],
+      "correct_answer": "Pamiątką rodzinną."
     }
   ]
 }

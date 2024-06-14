@@ -1,0 +1,55 @@
+{
+    "questions": [
+      {
+        "question": "Dlaczego Janek wrócił do domu?",
+        "options": [
+          "Aby sprzedawać dom.",
+          "Aby odnaleźć spokój i odnaleźć się na nowo.",
+          "Aby przejąć rodzinny biznes.",
+          "Aby odwiedzić przyjaciół."
+        ],
+        "correct_answer": "Aby odnaleźć spokój i odnaleźć się na nowo."
+      },
+      {
+        "question": "Co Janek znajduje na biurku w swoim starym pokoju?",
+        "options": [
+          "Nowe książki.",
+          "Zeszyty i książki z dzieciństwa.",
+          "List od przyjaciela.",
+          "Laptop."
+        ],
+        "correct_answer": "Zeszyty i książki z dzieciństwa."
+      },
+      {
+        "question": "Jaki zapach czuje Janek wchodząc do domu?",
+        "options": [
+          "Zapach starego drewna i świeżych kwiatów.",
+          "Zapach pieczonego chleba.",
+          "Zapach farby.",
+          "Zapach kurzu."
+        ],
+        "correct_answer": "Zapach starego drewna i świeżych kwiatów."
+      },
+      {
+        "question": "Co Janek robi po wejściu do domu?",
+        "options": [
+          "Woła rodziców.",
+          "Pociąga za sznurek zegara.",
+          "Zaczyna sprzątać.",
+          "Siada na kanapie."
+        ],
+        "correct_answer": "Pociąga za sznurek zegara."
+      },
+      {
+        "question": "Co Janek robi na końcu dnia?",
+        "options": [
+          "Ogląda telewizję.",
+          "Idzie spać.",
+          "Siada na ganku i patrzy na zachód.",
+          "Gotuje kolację."
+        ],
+        "correct_answer": "Siada na ganku i patrzy na zachód."
+      }
+    ]
+  }
+  

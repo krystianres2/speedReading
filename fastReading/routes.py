@@ -6,6 +6,7 @@ from fastReading import db
 from flask_login import login_user, logout_user, login_required, current_user # type: ignore
 from datetime import datetime
 import json
+from sqlalchemy.sql.expression import func # type: ignore
 
 @app.route('/')
 @app.route('/home')
@@ -26,7 +27,7 @@ def exercise1_page():
 @app.route('/get_ex1_text')
 @login_required
 def get_ex1_text():
-    text_quiz = TextQuiz.query.first()
+    text_quiz = TextQuiz.query.order_by(func.rand()).first()
     if text_quiz is None:
         return jsonify(error='No TextQuiz found'), 404
     file_path = text_quiz.text_file_path
@@ -69,7 +70,7 @@ def submit_quiz():
 @app.route('/get_text_quiz')
 @login_required
 def get_text_quiz():
-    text_quiz = TextQuiz.query.first()
+    text_quiz = TextQuiz.query.order_by(func.rand()).first()
     if text_quiz is None:
         return jsonify(error='No TextQuiz found'), 404
     text_file_path = text_quiz.text_file_path
@@ -101,7 +102,7 @@ def rsvp_page():
 @app.route('/get_rsvp_data', methods=['GET']) 
 @login_required
 def get_rsvp_data():
-    text_quiz = TextQuiz.query.first()
+    text_quiz = TextQuiz.query.order_by(func.rand()).first()
     if text_quiz is None:
         return jsonify(error='No TextQuiz found'), 404
     text_file_path = text_quiz.text_file_path
