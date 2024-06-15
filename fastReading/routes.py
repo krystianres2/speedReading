@@ -174,6 +174,18 @@ def get_reports_data():
     data = [{'wpm': result.wpm, 'timestamp': result.timestamp.strftime('%Y-%m-%d %H:%M:%S')} for result in results]
     return jsonify(data)
 
+@app.route('/dashboard/ranking')
+@login_required
+def ranking_page():
+    return render_template('ranking.html')
+
+@app.route('/get_ranking_data', methods=['GET'])
+@login_required
+def get_ranking_data():
+    users = User.query.order_by(User.points.asc()).all()
+    data = [{'username': user.username, 'level': user.level, 'points': user.points} for user in users]
+    return jsonify(data)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()

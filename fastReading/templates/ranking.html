@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='ranking.css') }}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='ranking.js') }}"></script>
+    <title>Ranking</title>
+  </head>
+  <body>
+    <p id="head">Ranking użytkowników</p>
+    <table id="table">
+      <colgroup>
+        <col style="width: 10%;" />
+        <col style="width: 30%;" />
+        <col style="width: 30%;" />
+        <col style="width: 30%;" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Miejsce</th>
+          <th>Użytkownik</th>
+          <th>Poziom</th>
+          <th id="sort_points">Punkty <span class="sort-indicator">▲</span></th>
+        </tr>
+      </thead>
+      <tbody id="table_body"></tbody>
+    </table>
+    <div id="pagination">
+      <button id="prev_page">Poprzednia</button>
+      <span id="page_info"></span>
+      <button id="next_page">Następna</button>
+    </div>
+  </body>
+</html>

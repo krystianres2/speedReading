@@ -13,6 +13,8 @@ def test_client():
             yield testing_client
             db.session.remove()
             db.drop_all()
+            if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
+                db.drop_all()
 
 @pytest.fixture(scope='module')
 def new_user():

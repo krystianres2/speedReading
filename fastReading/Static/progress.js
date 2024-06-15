@@ -182,7 +182,7 @@ $(document).ready(function () {
 
   function calculateWpmDifference(List) {
     let wpmValues = Object.values(List);
-    
+
     if (wpmValues.length > 1) {
       let difference = wpmValues[wpmValues.length - 1] - wpmValues[0];
       return Math.round(difference);

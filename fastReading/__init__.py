@@ -5,6 +5,7 @@ from flask_login import LoginManager # type: ignore
 from flask_migrate import Migrate # type: ignore
 
 
+
 app = Flask(__name__)
 
 userpass = 'mysql+pymysql://root:@'
@@ -23,6 +24,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login_page'
 
 from fastReading import routes
+
+
 
 # with app.app_context():
 #     db.create_all()
