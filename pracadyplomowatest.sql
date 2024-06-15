@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 30 Maj 2024, 16:07
+-- Czas generowania: 15 Cze 2024, 16:23
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.1.12
 
@@ -59,7 +59,11 @@ CREATE TABLE `exercise_result` (
 --
 
 INSERT INTO `exercise_result` (`id`, `user_id`, `exerciseId`, `score`, `timestamp`) VALUES
-(1, 1, 1, 4, '2024-05-29 19:04:41');
+(1, 1, 1, 4, '2024-05-29 19:04:41'),
+(2, 1, 2, 0, '2024-06-13 14:33:30'),
+(3, 1, 2, 5, '2024-06-13 14:43:32'),
+(4, 1, 2, 10, '2024-06-13 15:14:07'),
+(5, 1, 1, 0, '2024-06-13 15:15:01');
 
 -- --------------------------------------------------------
 
@@ -81,7 +85,9 @@ CREATE TABLE `quiz_result` (
 
 INSERT INTO `quiz_result` (`id`, `timestamp`, `score`, `effectivity`, `user_id`) VALUES
 (1, '2024-05-29 19:03:50', 20, 317.936, 1),
-(2, '2024-05-29 19:17:22', 0, 0, 1);
+(2, '2024-05-29 19:17:22', 0, 0, 1),
+(3, '2024-05-30 18:11:03', 0, 0, 1),
+(4, '2024-06-13 15:15:30', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -104,7 +110,20 @@ INSERT INTO `readed_texts` (`id`, `user_id`, `text_quiz_id`, `timestamp`) VALUES
 (1, 1, 1, '2024-05-29 19:02:57'),
 (2, 1, 1, '2024-05-29 19:03:46'),
 (3, 1, 1, '2024-05-29 19:04:14'),
-(4, 1, 1, '2024-05-29 19:16:43');
+(4, 1, 1, '2024-05-29 19:16:43'),
+(5, 1, 1, '2024-05-30 18:10:02'),
+(6, 1, 1, '2024-05-30 18:10:26'),
+(7, 1, 1, '2024-05-30 19:19:36'),
+(8, 1, 1, '2024-06-13 14:33:27'),
+(9, 1, 1, '2024-06-13 14:43:24'),
+(10, 1, 1, '2024-06-13 15:13:22'),
+(11, 1, 1, '2024-06-13 15:14:02'),
+(12, 1, 1, '2024-06-13 15:14:59'),
+(13, 1, 1, '2024-06-13 15:15:27'),
+(14, 1, 1, '2024-06-13 17:25:38'),
+(15, 1, 1, '2024-06-14 14:51:57'),
+(16, 1, 1, '2024-06-14 15:33:39'),
+(17, 1, 1, '2024-06-15 16:12:55');
 
 -- --------------------------------------------------------
 
@@ -123,7 +142,8 @@ CREATE TABLE `text_quiz` (
 --
 
 INSERT INTO `text_quiz` (`id`, `text_file_path`, `quiz_file_path`) VALUES
-(1, 'Sources/Texts/Text1.txt', 'Sources/Quizes/Quiz1.json');
+(1, 'Sources/Texts/Text1.txt', 'Sources/Quizes/Quiz1.json'),
+(2, 'Sources/Texts/Text2.txt', 'Sources/Quizes/Quiz2.json');
 
 -- --------------------------------------------------------
 
@@ -145,7 +165,27 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `level`, `points`) VALUES
-(1, 'jsc3', 'jsc3@gmail.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 1, 4);
+(1, 'jsc3', 'jsc3@gmail.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 1, 19),
+(2, 'user1', 'user1@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 1, 10),
+(3, 'user2', 'user2@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 1, 30),
+(4, 'user3', 'user3@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 1, 56),
+(5, 'user4', 'user4@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 1, 98),
+(6, 'user5', 'user5@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 2, 102),
+(7, 'user6', 'user6@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 2, 123),
+(8, 'user7', 'user7@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 2, 153),
+(9, 'user8', 'user8@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 2, 176),
+(10, 'user9', 'user9@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 2, 187),
+(11, 'user10', 'user10@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 3, 224),
+(12, 'user11', 'user11@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 3, 225),
+(13, 'user12', 'user12@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 3, 229),
+(14, 'user13', 'user13@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 3, 295),
+(15, 'user14', 'user14@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 4, 390),
+(16, 'user15', 'user15@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 4, 320),
+(17, 'user16', 'user16@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 4, 305),
+(18, 'user17', 'user17@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 5, 450),
+(19, 'user18', 'user18@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 7, 660),
+(20, 'user19', 'user19@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 8, 734),
+(21, 'user20', 'user20@example.com', '$2b$12$s0cdmtGdcTror8J.7RYCj..kFF15RuhO8dtETVZBDL4H0RPd4RSx6', 10, 999);
 
 --
 -- Wyzwalacze `user`
@@ -263,7 +303,16 @@ INSERT INTO `wpm_result` (`id`, `wpm`, `timestamp`, `user_id`) VALUES
 (86, 700, '2024-05-22 15:00:00', 1),
 (87, 750, '2024-05-23 15:00:00', 1),
 (88, 800, '2024-05-24 15:00:00', 1),
-(89, 1692.64, '2024-05-29 19:16:43', 1);
+(89, 1692.64, '2024-05-29 19:16:43', 1),
+(90, 679.473, '2024-05-30 18:10:02', 1),
+(91, 1747.25, '2024-05-30 18:10:26', 1),
+(92, 1747.16, '2024-05-30 19:19:36', 1),
+(93, 596.474, '2024-06-13 15:13:22', 1),
+(94, 1521.59, '2024-06-13 15:15:27', 1),
+(95, 1242.77, '2024-06-13 17:25:38', 1),
+(96, 671.053, '2024-06-14 14:51:57', 1),
+(97, 1825.78, '2024-06-14 15:33:39', 1),
+(98, 1732.76, '2024-06-15 16:12:55', 1);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -335,37 +384,37 @@ ALTER TABLE `exercise`
 -- AUTO_INCREMENT dla tabeli `exercise_result`
 --
 ALTER TABLE `exercise_result`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT dla tabeli `quiz_result`
 --
 ALTER TABLE `quiz_result`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT dla tabeli `readed_texts`
 --
 ALTER TABLE `readed_texts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT dla tabeli `text_quiz`
 --
 ALTER TABLE `text_quiz`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT dla tabeli `wpm_result`
 --
 ALTER TABLE `wpm_result`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- Ograniczenia dla zrzutów tabel
