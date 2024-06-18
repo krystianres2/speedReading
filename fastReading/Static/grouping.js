@@ -102,7 +102,7 @@ $(document).ready(function () {
     $("#quiz-container").show().empty();
     questionsList.forEach((question, questionIndex) => {
       let questionDiv = $("<div>").addClass("question").appendTo("#quiz-container");
-      $("<p>").text(question.question).appendTo(questionDiv);
+      $("<p id='question'>").text(question.question).appendTo(questionDiv);
       question.options.forEach((option, index) => {
         let optionDiv = $("<div>").addClass("option").appendTo(questionDiv);
         $("<input>")

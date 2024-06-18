@@ -23,6 +23,9 @@ p {
   margin: 0.5rem 0;
   text-align: center;
 }
+.question, .question p {
+  text-align: left;
+}
 
 #exercise_description {
   max-width: 600px;
@@ -99,7 +102,7 @@ button:hover {
   padding: 0.875rem 1.75rem;
   text-decoration: none;
   color: #ffffff;
-  background-color: #28a745;
+  background-color: #007bff;
   border: none;
   border-radius: 0.5rem;
   font-weight: 500;
@@ -110,6 +113,6 @@ button:hover {
 }
 
 #done-button:hover, #finish-button:hover {
-  background-color: #218838;
+  background-color: #0056b3;
   transform: translateY(-0.125rem);
 }

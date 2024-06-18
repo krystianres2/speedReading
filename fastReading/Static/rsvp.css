@@ -85,7 +85,7 @@ button:hover {
     padding: 0.875rem 1.75rem; /* 14px 28px */
     text-decoration: none;
     color: #ffffff;
-    background-color: #28a745;
+    background-color: #007bff;
     border: none;
     border-radius: 0.5rem; /* 8px */
     font-weight: 500;
@@ -96,7 +96,7 @@ button:hover {
 }
 
 #done-button:hover, #finish-button:hover {
-    background-color: #218838;
+    background-color: #0056b3;
     transform: translateY(-0.125rem); /* -2px */
 }
 
