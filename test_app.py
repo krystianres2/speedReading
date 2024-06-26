@@ -2,7 +2,8 @@
 import pytest # type: ignore
 from fastReading import app, db, bcrypt
 from flask import url_for # type: ignore
-from fastReading.models import User
+from fastReading.models import User, TextQuiz, WpmResult
+from urllib.parse import urlparse
 
 @pytest.fixture(scope='module')
 def test_client():
@@ -12,8 +13,8 @@ def test_client():
             db.create_all()
             yield testing_client
             db.session.remove()
-            db.drop_all()
-            if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
+            parsed_uri = urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
+            if parsed_uri.scheme == 'sqlite':
                 db.drop_all()
 
 @pytest.fixture(scope='module')
@@ -28,7 +29,9 @@ def init_database(test_client, new_user):
     db.session.commit()
     yield db
     db.session.remove()
-    db.drop_all()
+    parsed_uri = urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
+    if parsed_uri.scheme == 'sqlite':
+        db.drop_all()
 
 def test_home_page(test_client):
     response = test_client.get('/')
@@ -86,3 +89,63 @@ def test_get_ex1_text_requires_login(test_client):
     response = test_client.get('/get_ex1_text', follow_redirects=True)
     assert response.status_code == 200
     assert 'Zaloguj się' in response.data.decode('utf-8')
+
+def test_submit_wpm(test_client, init_database):
+    test_client.post('/login', data=dict(
+        username='testuser', password='Password123'
+    ), follow_redirects=True)
+
+    response = test_client.post('/submit_wpm', json={
+        'wpm': 250,
+        'id': 1
+    }, follow_redirects=True)
+    assert response.status_code == 200
+
+def test_submit_quiz(test_client, init_database):
+    test_client.post('/login', data=dict(
+        username='testuser', password='Password123'
+    ), follow_redirects=True)
+
+    response = test_client.post('/submit_quiz', json={
+        'percentage': 85,
+        'effectivity': 90
+    }, follow_redirects=True)
+    assert response.status_code == 200
+
+def test_submit_rsvp(test_client, init_database):
+    test_client.post('/login', data=dict(
+        username='testuser', password='Password123'
+    ), follow_redirects=True)
+
+    response = test_client.post('/submit_rsvp', json={
+        'percentage': 80
+    }, follow_redirects=True)
+    assert response.status_code == 200
+
+def test_submit_grouping(test_client, init_database):
+    test_client.post('/login', data=dict(
+        username='testuser', password='Password123'
+    ), follow_redirects=True)
+
+    response = test_client.post('/submit_grouping', json={
+        'percentage': 75
+    }, follow_redirects=True)
+    assert response.status_code == 200
+
+def test_get_progress_data(test_client, init_database):
+    test_client.post('/login', data=dict(
+        username='testuser', password='Password123'
+    ), follow_redirects=True)
+
+    response = test_client.get('/get_progress_data', follow_redirects=True)
+    assert response.status_code == 200
+    assert 'wpm' in response.data.decode('utf-8')
+
+def test_get_ranking_data(test_client, init_database):
+    test_client.post('/login', data=dict(
+        username='testuser', password='Password123'
+    ), follow_redirects=True)
+
+    response = test_client.get('/get_ranking_data', follow_redirects=True)
+    assert response.status_code == 200
+    assert 'username' in response.data.decode('utf-8')
