@@ -25,7 +25,9 @@ $(document).ready(function () {
   function displayStart(text) {
     $("#exercise_description, #text_content, #start_btn, #time").show();
     $("#time").text("00-00");
-    $("#text_content").html(text.map((word) => `<span class="cover">${word}</span>`).join(" "));
+    $("#text_content").html(
+      text.map((word) => `<span class="cover">${word}</span>`).join(" ")
+    );
   }
 
   function uncoverText(id, quizData) {
@@ -48,9 +50,11 @@ $(document).ready(function () {
 
   function finishReading(id, quizData) {
     stopTimer();
-    $("#done_btn").show().click(function () {
-      submitReading(id, quizData);
-    });
+    $("#done_btn")
+      .show()
+      .click(function () {
+        submitReading(id, quizData);
+      });
   }
 
   function submitReading(id, quizData) {
@@ -101,7 +105,9 @@ $(document).ready(function () {
   function renderQuiz(questionsList) {
     $("#quiz-container").show().empty();
     questionsList.forEach((question, questionIndex) => {
-      let questionDiv = $("<div>").addClass("question").appendTo("#quiz-container");
+      let questionDiv = $("<div>")
+        .addClass("question")
+        .appendTo("#quiz-container");
       $("<p id='question'>").text(question.question).appendTo(questionDiv);
       question.options.forEach((option, index) => {
         let optionDiv = $("<div>").addClass("option").appendTo(questionDiv);
@@ -149,7 +155,9 @@ $(document).ready(function () {
     let totalSeconds = 0;
     intervalId2 = setInterval(function () {
       totalSeconds++;
-      let minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+      let minutes = Math.floor(totalSeconds / 60)
+        .toString()
+        .padStart(2, "0");
       let seconds = (totalSeconds % 60).toString().padStart(2, "0");
       $("#time").text(`${minutes}-${seconds}`);
     }, 1000);

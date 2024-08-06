@@ -24,7 +24,7 @@ def main_page():
 def exercise1_page():
     return render_template('exercise1.html')
 
-@app.route('/get_ex1_text')
+@app.route('/get_ex1_text', methods=['GET'])
 @login_required
 def get_ex1_text():
     text_quiz = TextQuiz.query.order_by(func.rand()).first()
@@ -144,7 +144,7 @@ def submit_rsvp():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('//dashboard/training/grouping')
+@app.route('/dashboard/training/grouping')
 @login_required
 def grouping_page():
     return render_template('grouping.html')
@@ -156,6 +156,19 @@ def submit_grouping():
     data = request.get_json()
     score = (data.get('percentage') / 100) * weight
     result = ExerciseResult(user_id=current_user.id, exerciseId=2, score=score, timestamp=datetime.now())
+    db.session.add(result)
+    db.session.commit()
+    current_user.points += score
+    db.session.commit()
+    return jsonify({'redirect': url_for('main_page')})
+
+@app.route('/submit_selection', methods=['POST'])
+@login_required
+def submit_selection():
+    weight = 25
+    data = request.get_json()
+    score = (data.get('percentage') / 100) * weight
+    result = ExerciseResult(user_id=current_user.id, exerciseId=3, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
     current_user.points += score
@@ -185,6 +198,11 @@ def get_ranking_data():
     users = User.query.order_by(User.points.asc()).all()
     data = [{'username': user.username, 'level': user.level, 'points': user.points} for user in users]
     return jsonify(data)
+
+@app.route('/dashboard/training/selection')
+@login_required
+def selection_page():
+    return render_template('selection.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():

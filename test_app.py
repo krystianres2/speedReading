@@ -2,7 +2,7 @@
 import pytest # type: ignore
 from fastReading import app, db, bcrypt
 from flask import url_for # type: ignore
-from fastReading.models import User, TextQuiz, WpmResult
+from fastReading.models import User
 from urllib.parse import urlparse
 
 @pytest.fixture(scope='module')
@@ -13,9 +13,6 @@ def test_client():
             db.create_all()
             yield testing_client
             db.session.remove()
-            parsed_uri = urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
-            if parsed_uri.scheme == 'sqlite':
-                db.drop_all()
 
 @pytest.fixture(scope='module')
 def new_user():
@@ -29,9 +26,7 @@ def init_database(test_client, new_user):
     db.session.commit()
     yield db
     db.session.remove()
-    parsed_uri = urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
-    if parsed_uri.scheme == 'sqlite':
-        db.drop_all()
+
 
 def test_home_page(test_client):
     response = test_client.get('/')
@@ -56,6 +51,14 @@ def test_invalid_register_existing_username(test_client, init_database):
     ), follow_redirects=True)
     assert response.status_code == 200
     assert 'Istnieje już taka nazwa użytkownika' in response.data.decode('utf-8')
+
+def test_invalid_register_existing_email(test_client, init_database):
+    response = test_client.post('/register', data=dict(
+        username='newuser', email='test@example.com', password='Password123', confirm_password='Password123'
+    ), follow_redirects=True)
+    assert response.status_code == 200
+    assert 'Istnieje już konto z podanym adresem e-mail.' in response.data.decode('utf-8')
+
 
 def test_login_page(test_client):
     response = test_client.get('/login')
@@ -149,3 +152,8 @@ def test_get_ranking_data(test_client, init_database):
     response = test_client.get('/get_ranking_data', follow_redirects=True)
     assert response.status_code == 200
     assert 'username' in response.data.decode('utf-8')
+
+def pytest_sessionfinish(session, exitstatus):
+    parsed_uri = urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
+    if parsed_uri.scheme == 'sqlite':
+        db.drop_all()
