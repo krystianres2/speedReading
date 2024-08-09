@@ -204,6 +204,24 @@ def get_ranking_data():
 def selection_page():
     return render_template('selection.html')
 
+@app.route('/dashboard/training/exercise6')
+@login_required
+def exercise6_page():
+    return render_template('exercise6.html')
+
+@app.route('/submit_ex6', methods=['POST'])
+@login_required
+def submit_ex6():
+    weight = 30
+    data = request.get_json()
+    score = (data.get('percentage') / 100) * weight
+    result = ExerciseResult(user_id=current_user.id, exerciseId=4, score=score, timestamp=datetime.now())
+    db.session.add(result)
+    db.session.commit()
+    current_user.points += score
+    db.session.commit()
+    return jsonify({'redirect': url_for('main_page')})
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()

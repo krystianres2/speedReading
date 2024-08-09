@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ćwiczenie 6</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='exercise6.js') }}"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='exercise6.css') }}"
+    />
+  </head>
+  <body>
+    <div id="start">
+      <p id="manual">
+        Staraj się zrozumieć tekst pomimo zasłonięcia pierwszego i ostatniego
+        słowa w zdaniu. Na końcu rozwiąż quiz.
+      </p>
+      <button id="startBtn">Start</button>
+    </div>
+    <div id="textContent"></div>
+    <button id="doneBtn" style="display: none">Zakończ czytanie</button>
+    <div id="quiz-container" style="display: none"></div>
+  </body>
+</html>
