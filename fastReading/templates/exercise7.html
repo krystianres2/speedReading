@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ćwiczenie 7</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='exercise7.js') }}"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='exercise7.css') }}"
+    />
+  </head>
+  <body>
+    <div id="start">
+      <p id="manual">
+        Skup wzrok na środku siatki i znajduj bigramy (kombinacje dwóch liter).
+        Masz 30 sekund aby zaznaczyć ich jak najwięcej.
+      </p>
+    </div>
+    <div id="content" style="display:none;"> <!-- Initially hidden -->
+      <div id="elements"></div>
+      <div id="grid_container"></div> <!-- Visible by default -->
+      <p id="timer" style="display:none;">00-00</p> <!-- Initially hidden -->
+    </div>
+    <button id="startBtn">Start</button>
+    <div id="summary" style="display:none;"> <!-- Initially hidden -->
+      <p id="summaryText"></p>
+      <button id="summaryBtn">Zakończ</button>
+    </div>
+  </body>
+</html>

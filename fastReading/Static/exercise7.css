@@ -1,0 +1,52 @@
+/* Grid and Cell Styling */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.row {
+    display: contents;
+}
+
+.cell {
+    border: 1px solid #868686;
+    padding: 1px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Highlighting the central square */
+.cell:nth-child(8) {
+    background-color: green;
+}
+
+/* Styling for elements to find */
+.elements-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.element {
+    margin: 0 10px;
+    padding: 10px;
+    border: 1px solid #868686;
+    text-align: center;
+    user-select: none;
+}
+
+/* Timer styling */
+#timer {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 20px;
+}

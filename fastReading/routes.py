@@ -222,6 +222,33 @@ def submit_ex6():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
+@app.route('/dashboard/training/exercise7')
+@login_required
+def exercise7_page():
+    return render_template('exercise7.html')
+
+@app.route('/get_character_pairs', methods=['GET'])
+@login_required
+def getCharacterPairs():
+    pairs_file_path = 'Sources/Words/pairs.json'
+
+    with open(pairs_file_path, 'r', encoding='utf-8') as file:
+        pairs = file.read()
+    return jsonify({ 'character_pairs': pairs})
+
+@app.route('/submit_ex7', methods=['POST'])
+@login_required
+def submit_ex7():
+    weight = 2
+    data = request.get_json()
+    score = data.get('gamePoints') * weight
+    result = ExerciseResult(user_id=current_user.id, exerciseId=5, score=score, timestamp=datetime.now())
+    db.session.add(result)
+    db.session.commit()
+    current_user.points += score
+    db.session.commit()
+    return jsonify({'redirect': url_for('main_page')})
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
