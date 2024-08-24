@@ -249,6 +249,25 @@ def submit_ex7():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
+@app.route('/dashboard/training/exercise8')
+@login_required
+def exercise8_page():
+    return render_template('exercise8.html')
+
+@app.route('/submit_ex8', methods=['POST'])
+@login_required
+def submit_ex8():
+    weight = 1
+    data = request.get_json()
+    seconds = 80 - data.get('totalSeconds')
+    score = data.get('gamePoints') * (1+seconds/100) * weight
+    result = ExerciseResult(user_id=current_user.id, exerciseId=6, score=score, timestamp=datetime.now())
+    db.session.add(result)
+    db.session.commit()
+    current_user.points += score
+    db.session.commit()
+    return jsonify({'redirect': url_for('main_page')})
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
