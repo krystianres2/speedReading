@@ -39,6 +39,7 @@ class TextQuiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text_file_path = db.Column(db.String(100), unique=True, nullable=False)
     quiz_file_path = db.Column(db.String(100), unique=True, nullable=False)
+    type = db.Column(db.String(20), nullable=False)
 
 class QuizResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -71,6 +72,31 @@ class ExerciseResult(db.Model):
 
     exercise = db.relationship('Exercise', backref=db.backref('exercise_results', lazy=True))
     user = db.relationship('User', backref=db.backref('exercise_results', lazy=True))
+
+class Admin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    password_hash = db.Column(db.String(60), nullable=False)
+
+    @property
+    def password(self):
+        return self.password
+    
+    @password.setter
+    def password(self, plain_text_password):
+        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
+
+    def check_password_correction(self, attempted_password):
+        return bcrypt.check_password_hash(self.password_hash, attempted_password)
+    
+    @property
+    def is_active(self):
+        # Możesz dodać logikę, aby sprawdzić, czy konto jest aktywne
+        return True
+    
+    def get_id(self):
+        return str(self.id)
 
     
     

@@ -1,12 +1,15 @@
 from fastReading import app
-from flask import render_template, redirect, url_for, request, jsonify, Response, flash # type: ignore
-from fastReading.models import User, WpmResult, TextQuiz, QuizResult, ReadedTexts, Exercise, ExerciseResult
+from flask import render_template, redirect, url_for, request, jsonify, Response, flash, session # type: ignore
+from fastReading.models import User, WpmResult, TextQuiz, QuizResult, ReadedTexts, Exercise, ExerciseResult, Admin
 from fastReading.forms import RegisterForm, LoginForm
 from fastReading import db
 from flask_login import login_user, logout_user, login_required, current_user # type: ignore
 from datetime import datetime
-import json
+import os
 from sqlalchemy.sql.expression import func # type: ignore
+from fastReading.validation import validate_quiz_json
+from werkzeug.utils import secure_filename # type: ignore
+from json.decoder import JSONDecodeError
 
 @app.route('/')
 @app.route('/home')
@@ -268,6 +271,69 @@ def submit_ex8():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
+@app.route('/upload_files', methods=['POST'])
+def upload_files():
+    if session.get('admin') == True:
+        if 'file1' not in request.files or 'file2' not in request.files:
+            return jsonify({'error': 'No files found'}), 400
+        text = request.files['file1']
+        quiz = request.files['file2']
+        if text.filename == '' or quiz.filename == '':
+            return jsonify({'error': 'No selected files'}), 400
+        
+        temp_dir = 'temp_uploads'
+        os.makedirs(temp_dir, exist_ok=True)
+
+        filename1 = secure_filename(text.filename)
+        filename2 = secure_filename(quiz.filename)
+
+        file1_path = os.path.join(temp_dir, filename1)
+        file2_path = os.path.join(temp_dir, filename2)
+
+        text.save(file1_path)
+        quiz.save(file2_path)
+
+        try:
+            # Validate the JSON file
+            if not validate_quiz_json(file2_path):
+                raise ValueError('Invalid quiz file structure')
+
+        except JSONDecodeError as e:
+            os.remove(file1_path)
+            os.remove(file2_path)
+            return jsonify({'error': f'JSON Decode Error: {str(e)}'}), 400
+        
+        except Exception as e:
+            os.remove(file1_path)
+            os.remove(file2_path)
+            return jsonify({'error': f'Unexpected Error: {str(e)}'}), 500
+
+        # Clean up temporary files
+        os.remove(file1_path)
+        os.remove(file2_path)
+
+        # Reset file pointers
+        text.seek(0)
+        quiz.seek(0)
+
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        filename1 = f"{timestamp}_{filename1}"
+        filename2 = f"{timestamp}_{filename2}"
+
+        selected_option = request.form.get('option')
+
+        upload_folder_text = f"Sources/Texts"
+        upload_folder_quiz = f"Sources/Quizes"
+
+        text.save(os.path.join(upload_folder_text, filename1))
+        quiz.save(os.path.join(upload_folder_quiz, filename2))
+
+        text_quiz = TextQuiz(text_file_path=os.path.join(upload_folder_text, filename1), quiz_file_path=os.path.join(upload_folder_quiz, filename2), type=selected_option)
+        db.session.add(text_quiz)
+        db.session.commit()
+        return jsonify({'redirect': url_for('admin_page')})
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
@@ -282,6 +348,8 @@ def register_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
+    if current_user.is_authenticated:
+        return redirect(url_for('logout_page'))
     form = LoginForm()
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(username=form.username.data).first()
@@ -292,7 +360,36 @@ def login_page():
             flash('Nazwa użytkownika lub hasło są niepoprawne, spróbuj ponownie później', 'error')
     return render_template('login.html', form=form)
 
+
+@app.route('/admin')
+def admin_page():
+    if session.get('admin') == True:
+        return render_template('admin.html')
+    else:
+        return redirect(url_for('admin_login_page'))
+    
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login_page():
+    if session.get('admin') == True:
+        return redirect(url_for('admin_page'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        attempted_user = Admin.query.filter_by(username=form.username.data).first()
+        if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
+            login_user(attempted_user)
+            session['admin'] = True
+            return redirect(url_for('admin_page'))
+        else:
+            flash('Nazwa użytkownika lub hasło są niepoprawne, spróbuj ponownie później', 'error')
+    return render_template('login.html', form=form)
+
+@app.route('/admin_logout')
+def admin_logout_page():
+    session['admin'] = False
+    return redirect(url_for('home_page'))
+
 @app.route('/logout')
 def logout_page():
     logout_user()
     return redirect(url_for('home_page'))
+

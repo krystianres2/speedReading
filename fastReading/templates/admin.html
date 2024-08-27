@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel administratora</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='admin.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><p>Panel administratora</p></li>
+        <li>
+          <a class="logout-link" href="{{ url_for('admin_logout_page') }}"
+            >Wyloguj się</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <p id="info"></p>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" id="fileInput1" name="text" accept=".txt" />
+      <p id="NumOfWords"></p>
+      <input type="file" id="fileInput2" name="quiz" accept=".json" />
+
+      <div>
+        <input type="radio" id="option1" name="option" value="Short" checked="checked" />
+        <label for="option1">Short</label>
+      </div>
+      <div>
+        <input type="radio" id="option2" name="option" value="Medium" />
+        <label for="option2">Medium</label>
+      </div>
+      <div>
+        <input type="radio" id="option3" name="option" value="Long" />
+        <label for="option3">Long</label>
+      </div>
+
+      <button type="submit">Upload</button>
+    </form>
+  </body>
+</html>
