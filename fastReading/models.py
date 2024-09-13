@@ -2,11 +2,18 @@ from fastReading import db, login_manager
 from fastReading import bcrypt
 from flask_login import UserMixin # type: ignore
 from datetime import datetime, timezone
+from flask import render_template, redirect, url_for, request, jsonify, flash, session # type: ignore
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    flash('Proszę się zalogować, aby uzyskać dostęp do tej strony', 'error')
+    return redirect(url_for('login_page'))
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

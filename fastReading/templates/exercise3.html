@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selekcja</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/exercise3.js') }}"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/exercise3.css') }}"
+    />
+  </head>
+  <body>
+    <div id="start">
+      <p id="manual">
+        Klikaj w tekście na wystąpienia podanego poniżej słowa, masz minutę aby
+        zaznaczyć ich jak najwięcej, ignoruj wielkość znaków
+      </p>
+      <p id="wordToSelect"></p>
+      <button id="startBtn">Start</button>
+    </div>
+    <div id="textContent"></div>
+    <p id="counter"></p>
+    <p id="timer"></p>
+    <div id="summary">
+      <p id="summaryText"></p>
+      <button id="summaryBtn">Zakończ</button>
+    </div>
+  </body>
+</html>

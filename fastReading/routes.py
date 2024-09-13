@@ -1,15 +1,20 @@
-from fastReading import app
-from flask import render_template, redirect, url_for, request, jsonify, Response, flash, session # type: ignore
-from fastReading.models import User, WpmResult, TextQuiz, QuizResult, ReadedTexts, Exercise, ExerciseResult, Admin
-from fastReading.forms import RegisterForm, LoginForm
-from fastReading import db
+from flask import ( # type: ignore
+    render_template, redirect, url_for, request, jsonify, flash, session
+)
 from flask_login import login_user, logout_user, login_required, current_user # type: ignore
-from datetime import datetime
-import os
-from sqlalchemy.sql.expression import func # type: ignore
-from fastReading.validation import validate_quiz_json
 from werkzeug.utils import secure_filename # type: ignore
+from sqlalchemy.sql.expression import func # type: ignore
+from datetime import datetime, timedelta
+import os
+import pandas as pd
 from json.decoder import JSONDecodeError
+
+from fastReading import app, db, limiter
+from fastReading.models import (
+    User, WpmResult, TextQuiz, QuizResult, ExerciseResult, Admin
+)
+from fastReading.forms import RegisterForm, LoginForm
+from fastReading.validation import validate_quiz_json
 
 @app.route('/')
 @app.route('/home')
@@ -22,92 +27,81 @@ def home_page():
 def main_page():
     return render_template('dashboard.html')
 
-@app.route('/dashboard/exercise1')
+@app.route('/dashboard/wpm-exercise')
 @login_required
-def exercise1_page():
-    return render_template('exercise1.html')
+def wpm_exercise_page():
+    return render_template('wpm-exercise.html')
 
-@app.route('/get_ex1_text', methods=['GET'])
+@app.route('/dashboard/effectivity-exercise')
 @login_required
-def get_ex1_text():
-    text_quiz = TextQuiz.query.order_by(func.rand()).first()
-    if text_quiz is None:
-        return jsonify(error='No TextQuiz found'), 404
-    file_path = text_quiz.text_file_path
-
-    with open(file_path, 'r', encoding='utf-8') as file:
-        text = file.read()
-
-    return jsonify({'file_content': text, 'id': text_quiz.id})
-
-@app.route('/submit_wpm', methods=['POST'])
-@login_required
-def submit_wpm():
-    data = request.get_json()
-    wpm = data.get('wpm')
-    result = WpmResult(wpm=wpm, timestamp=datetime.now(), user_id=current_user.id)
-    db.session.add(result)
-    db.session.commit()
-    print(data.get('id'))
-    result2 = ReadedTexts(user_id=current_user.id, text_quiz_id=data.get('id'), timestamp=datetime.now())
-    db.session.add(result2)
-    db.session.commit()
-    print(data.get('id'))
-    return jsonify({'redirect': url_for('main_page')})
-
-@app.route('/dashboard/exercise2')
-@login_required
-def exercise2_page():
-    return render_template('exercise2.html')
-
-@app.route('/submit_quiz', methods=['POST'])
-@login_required
-def submit_quiz():
-    data = request.get_json()
-    result = QuizResult(score=data.get('percentage'), effectivity=data.get('effectivity'), timestamp=datetime.now(), user_id=current_user.id)
-    db.session.add(result)
-    db.session.commit()
-
-    return jsonify({'redirect': url_for('main_page')})
-
-@app.route('/get_text_quiz')
-@login_required
-def get_text_quiz():
-    text_quiz = TextQuiz.query.order_by(func.rand()).first()
-    if text_quiz is None:
-        return jsonify(error='No TextQuiz found'), 404
-    text_file_path = text_quiz.text_file_path
-    quiz_file_path = text_quiz.quiz_file_path
-
-    with open(text_file_path, 'r', encoding='utf-8') as file:
-        text = file.read()
-    with open(quiz_file_path, 'r', encoding='utf-8') as file:
-        quiz = file.read()
-    return jsonify({'file_content': text, 'quiz_content': quiz, 'id': text_quiz.id})
-
-@app.route('/get_wpm_data')
-@login_required
-def get_wpm_data():
-    results = WpmResult.query.filter_by(user_id=current_user.id).all()
-    data = [{'wpm': result.wpm, 'timestamp': result.timestamp.strftime('%Y-%m-%d %H:%M:%S')} for result in results]
-    return jsonify(data)
+def effectivity_exercise_page():
+    return render_template('effectivity-exercise.html')
 
 @app.route('/dashboard/training')
 @login_required
 def training_page():
     return render_template('training.html')
 
-@app.route('/dashboard/training/rsvp')
+@app.route('/dashboard/training/exercise1')
 @login_required
-def rsvp_page():
-    return render_template('rsvp.html')
+def exercise1_page():
+    return render_template('exercise1.html')
 
-@app.route('/get_rsvp_data', methods=['GET']) 
+@app.route('/dashboard/training/exercise2')
 @login_required
-def get_rsvp_data():
-    text_quiz = TextQuiz.query.order_by(func.rand()).first()
+def grouping_page():
+    return render_template('exercise2.html')
+
+@app.route('/dashboard/training/exercise3')
+@login_required
+def selection_page():
+    return render_template('exercise3.html')
+
+@app.route('/dashboard/training/exercise4')
+@login_required
+def exercise6_page():
+    return render_template('exercise4.html')
+
+@app.route('/dashboard/training/exercise5')
+@login_required
+def exercise7_page():
+    return render_template('exercise5.html')
+
+@app.route('/dashboard/training/exercise6')
+@login_required
+def exercise8_page():
+    return render_template('exercise6.html')
+
+@app.route('/dashboard/progress')
+@login_required
+def reports_page():
+    return render_template('progress.html')
+
+@app.route('/dashboard/ranking')
+@login_required
+def ranking_page():
+    return render_template('ranking.html')
+
+@app.route('/text/<string:text_type>', methods=['GET'])
+@login_required
+@limiter.limit("10 per minute")
+def get_text(text_type):
+    text = TextQuiz.query.filter_by(type=text_type).order_by(func.rand()).first()
+    if text is None:
+        return jsonify(error='No Text found'), 404
+    file_path = text.text_file_path
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        text = file.read()
+    return jsonify(text)
+
+@app.route('/text-quiz/<string:type>', methods=['GET'])
+@login_required
+@limiter.limit("10 per minute")
+def get_text_quiz(type):
+    text_quiz = TextQuiz.query.filter_by(type=type).order_by(func.rand()).first()
     if text_quiz is None:
-        return jsonify(error='No TextQuiz found'), 404
+        return jsonify(error='No Text and Quiz found'), 404
     text_file_path = text_quiz.text_file_path
     quiz_file_path = text_quiz.quiz_file_path
 
@@ -115,31 +109,35 @@ def get_rsvp_data():
         text = file.read()
     with open(quiz_file_path, 'r', encoding='utf-8') as file:
         quiz = file.read()
+    return jsonify({'text': text, 'quiz': quiz})
 
-    wpm_results = WpmResult.query.filter_by(user_id=current_user.id).all()
-
-    if wpm_results:
-        average_wpm = sum(result.wpm for result in wpm_results) / len(wpm_results)
-    else:
-        average_wpm = 0
-
-    return jsonify({'file_content': text, 'quiz_content': quiz, 'id': text_quiz.id, 'average_wpm': average_wpm})
-
-@app.route('/submit_readed_text', methods=['POST'])
+@app.route('/wpm-submission', methods=['POST'])
 @login_required
-def submit_readed_text():
+@limiter.limit("10 per minute")
+def submit_wpm():
     data = request.get_json()
-    result = ReadedTexts(user_id=current_user.id, text_quiz_id=data.get('id'), timestamp=datetime.now())
+    wpm = data.get('wpm')
+    result = WpmResult(wpm=wpm, timestamp=datetime.now(), user_id=current_user.id)
     db.session.add(result)
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/submit_rsvp', methods=['POST'])
+@app.route('/quiz-submission', methods=['POST'])
 @login_required
-def submit_rsvp():
-    weight = 20
+@limiter.limit("10 per minute")
+def submit_quiz():
     data = request.get_json()
-    score = (data.get('percentage') / 100) * weight
+    result = QuizResult(score=data.get('percentage'), effectivity=data.get('effectivity'), timestamp=datetime.now(), user_id=current_user.id)
+    db.session.add(result)
+    db.session.commit()
+    return jsonify({'redirect': url_for('main_page')})
+
+@app.route('/exercise1-submission', methods=['POST'])
+@login_required
+@limiter.limit("10 per minute")
+def submit_exercise1():
+    data = request.get_json()
+    score = ((data.get('percentage')/100)*20)
     result = ExerciseResult(user_id=current_user.id, exerciseId=1, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
@@ -147,17 +145,12 @@ def submit_rsvp():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/dashboard/training/grouping')
+@app.route('/exercise2-submission', methods=['POST'])
 @login_required
-def grouping_page():
-    return render_template('grouping.html')
-
-@app.route('/submit_grouping', methods=['POST'])
-@login_required
-def submit_grouping():
-    weight = 25
+@limiter.limit("10 per minute")
+def submit_exercise2():
     data = request.get_json()
-    score = (data.get('percentage') / 100) * weight
+    score = ((data.get('percentage')/100)*20)
     result = ExerciseResult(user_id=current_user.id, exerciseId=2, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
@@ -165,12 +158,12 @@ def submit_grouping():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/submit_selection', methods=['POST'])
+@app.route('/exercise3-submission', methods=['POST'])
 @login_required
-def submit_selection():
-    weight = 25
+@limiter.limit("10 per minute")
+def submit_exercise3():
     data = request.get_json()
-    score = (data.get('percentage') / 100) * weight
+    score = ((data.get('percentage')/100)*20)
     result = ExerciseResult(user_id=current_user.id, exerciseId=3, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
@@ -178,46 +171,12 @@ def submit_selection():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/dashboard/progress')
+@app.route('/exercise4-submission', methods=['POST'])
 @login_required
-def reports_page():
-    return render_template('progress.html')
-
-@app.route('/get_progress_data', methods=['GET'])
-@login_required
-def get_reports_data():
-    results = WpmResult.query.filter_by(user_id=current_user.id).order_by(WpmResult.timestamp).all()
-    data = [{'wpm': result.wpm, 'timestamp': result.timestamp.strftime('%Y-%m-%d %H:%M:%S')} for result in results]
-    return jsonify(data)
-
-@app.route('/dashboard/ranking')
-@login_required
-def ranking_page():
-    return render_template('ranking.html')
-
-@app.route('/get_ranking_data', methods=['GET'])
-@login_required
-def get_ranking_data():
-    users = User.query.order_by(User.points.asc()).all()
-    data = [{'username': user.username, 'level': user.level, 'points': user.points} for user in users]
-    return jsonify(data)
-
-@app.route('/dashboard/training/selection')
-@login_required
-def selection_page():
-    return render_template('selection.html')
-
-@app.route('/dashboard/training/exercise6')
-@login_required
-def exercise6_page():
-    return render_template('exercise6.html')
-
-@app.route('/submit_ex6', methods=['POST'])
-@login_required
-def submit_ex6():
-    weight = 30
+@limiter.limit("10 per minute")
+def submit_exercise4():
     data = request.get_json()
-    score = (data.get('percentage') / 100) * weight
+    score = ((data.get('percentage')/100)*20)
     result = ExerciseResult(user_id=current_user.id, exerciseId=4, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
@@ -225,26 +184,12 @@ def submit_ex6():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/dashboard/training/exercise7')
+@app.route('/exercise5-submission', methods=['POST'])
 @login_required
-def exercise7_page():
-    return render_template('exercise7.html')
-
-@app.route('/get_character_pairs', methods=['GET'])
-@login_required
-def getCharacterPairs():
-    pairs_file_path = 'Sources/Words/pairs.json'
-
-    with open(pairs_file_path, 'r', encoding='utf-8') as file:
-        pairs = file.read()
-    return jsonify({ 'character_pairs': pairs})
-
-@app.route('/submit_ex7', methods=['POST'])
-@login_required
-def submit_ex7():
-    weight = 2
+@limiter.limit("10 per minute")
+def submit_exercise5():
     data = request.get_json()
-    score = data.get('gamePoints') * weight
+    score = (data.get('gamePoints')*2)
     result = ExerciseResult(user_id=current_user.id, exerciseId=5, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
@@ -252,18 +197,12 @@ def submit_ex7():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/dashboard/training/exercise8')
+@app.route('/exercise6-submission', methods=['POST'])
 @login_required
-def exercise8_page():
-    return render_template('exercise8.html')
-
-@app.route('/submit_ex8', methods=['POST'])
-@login_required
-def submit_ex8():
-    weight = 1
+@limiter.limit("10 per minute")
+def submit_exercise6():
     data = request.get_json()
-    seconds = 80 - data.get('totalSeconds')
-    score = data.get('gamePoints') * (1+seconds/100) * weight
+    score = data.get('gamePoints')+(data.get('secondsLeft')/10)
     result = ExerciseResult(user_id=current_user.id, exerciseId=6, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
@@ -271,7 +210,67 @@ def submit_ex8():
     db.session.commit()
     return jsonify({'redirect': url_for('main_page')})
 
-@app.route('/upload_files', methods=['POST'])
+@app.route('/user/progress-data', methods=['GET'])
+@login_required
+@limiter.limit("10 per minute")
+def get_reports_data():
+    seven_days_ago = (datetime.now() - timedelta(days=7)).date()
+    data = WpmResult.query.filter_by(user_id=current_user.id).order_by(WpmResult.timestamp).all()
+    df = pd.DataFrame([{'wpm': result.wpm, 'timestamp': result.timestamp.date()} for result in data])
+    average_wpm = df['wpm'].mean() #output
+    df_last_seven_days = df[df['timestamp'] > seven_days_ago].copy()
+    df_last_seven_days['timestamp'] = pd.to_datetime(df['timestamp'])
+    seven_days_average_wpm = df_last_seven_days['wpm'].mean() #output
+    date_range = pd.date_range(start=seven_days_ago + timedelta(days=1), end=datetime.now().date())
+    date_df = pd.DataFrame(date_range, columns=['timestamp'])
+    merged_df = date_df.merge(df_last_seven_days.groupby('timestamp')['wpm'].mean().reset_index(), on='timestamp', how='left')
+    merged_df['wpm'] = merged_df['wpm'].fillna(0)
+    seven_days_wpm_list = [{'date': row['timestamp'].strftime('%Y-%m-%d'), 'wpm': row['wpm']} for _, row in merged_df.iterrows()] #output
+
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df['Month'] = df['timestamp'].dt.strftime('%Y-%m')
+    monthly_avg_wpm = df.groupby('Month').mean(numeric_only=True)
+    all_months = pd.date_range(start=df['timestamp'].min().to_period('M').to_timestamp(),
+                            end=df['timestamp'].max().to_period('M').to_timestamp(),
+                            freq='MS').strftime('%Y-%m')
+    all_months_df = pd.DataFrame(all_months, columns=['Month'])
+    merged_monthly_df = all_months_df.merge(monthly_avg_wpm, on='Month', how='left')
+    merged_monthly_df['wpm'] = merged_monthly_df['wpm'].fillna(0)
+    monthly_wpm_list = [{'date': row['Month'], 'wpm': row['wpm']} for _, row in merged_monthly_df.iterrows()] #output
+
+    return jsonify([{'average_wpm': average_wpm, 'last_week_average_wpm': seven_days_average_wpm, 'last_week_wpm': seven_days_wpm_list, 'monthly_wpm': monthly_wpm_list}])
+
+@app.route('/user/average-wpm', methods=['GET'])
+@login_required
+@limiter.limit("10 per minute")
+def get_average_wpm():
+    results = WpmResult.query.filter_by(user_id=current_user.id).all()
+    if not results:
+        return jsonify({'average_wpm': 0})
+    average_wpm = sum(result.wpm for result in results) / len(results)
+    return jsonify({'average_wpm': average_wpm})
+
+@app.route('/users-ranking', methods=['GET'])
+@login_required
+@limiter.limit("10 per minute")
+def get_ranking_data():
+    users = User.query.order_by(User.points.asc()).all()
+    data = [{'username': user.username, 'level': user.level, 'points': user.points} for user in users]
+    return jsonify(data)
+
+@app.route('/character-pairs', methods=['GET'])
+@login_required
+@limiter.limit("10 per minute")
+def getCharacterPairs():
+    pairs_file_path = 'Sources/Words/pairs.json'
+
+    with open(pairs_file_path, 'r', encoding='utf-8') as file:
+        pairs = file.read()
+    return jsonify({ 'character_pairs': pairs})
+
+@app.route('/upload-files', methods=['POST'])
+@login_required
+@limiter.limit("10 per minute")
 def upload_files():
     if session.get('admin') == True:
         if 'file1' not in request.files or 'file2' not in request.files:
@@ -335,6 +334,7 @@ def upload_files():
 
 
 @app.route('/register', methods=['GET', 'POST'])
+@limiter.limit("20 per hour")
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
@@ -347,6 +347,7 @@ def register_page():
     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("20 per hour")
 def login_page():
     if current_user.is_authenticated:
         return redirect(url_for('logout_page'))
@@ -362,6 +363,7 @@ def login_page():
 
 
 @app.route('/admin')
+@limiter.limit("10 per minute")
 def admin_page():
     if session.get('admin') == True:
         return render_template('admin.html')
@@ -393,3 +395,10 @@ def logout_page():
     logout_user()
     return redirect(url_for('home_page'))
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return render_template('429.html'), 429

@@ -8,17 +8,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='dashboard.css') }}"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
     />
   </head>
   <body>
     <nav class="navbar">
       <ul class="nav-links-container">
-        <li>
-          <a class="nav-link" href="{{ url_for('home_page') }}"
-            >Strona główna</a
-          >
-        </li>
         <div class="right-links">
           {% if current_user.is_authenticated %}
           <li>{{ current_user.username }} - Level: {{ current_user.level }}</li>
@@ -31,10 +26,10 @@
         </div>
       </ul>
     </nav>
-    <a class="nav-link" href="{{ url_for('exercise1_page')}}"
+    <a class="nav-link" href="{{ url_for('wpm_exercise_page')}}"
       >Testuj prędkość czytania</a
     >
-    <a class="nav-link" href="{{ url_for('exercise2_page')}}"
+    <a class="nav-link" href="{{ url_for('effectivity_exercise_page')}}"
       >Sprawdź efektywność czytania</a
     >
     <a class="nav-link" href="{{ url_for('training_page')}}">Trening</a>

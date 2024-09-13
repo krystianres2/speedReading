@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ćwiczenie 6</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ćwiczenie 8</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='exercise6.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/exercise6.js') }}"></script>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='exercise6.css') }}"
+      href="{{ url_for('static', filename='css/exercise6.css') }}"
     />
-  </head>
-  <body>
+</head>
+<body>
     <div id="start">
-      <p id="manual">
-        Staraj się zrozumieć tekst pomimo zasłonięcia pierwszego i ostatniego
-        słowa w zdaniu. Na końcu rozwiąż quiz.
-      </p>
-      <button id="startBtn">Start</button>
-    </div>
-    <div id="textContent"></div>
-    <button id="doneBtn" style="display: none">Zakończ czytanie</button>
-    <div id="quiz-container" style="display: none"></div>
-  </body>
+        <p id="manual">
+          Skup wzrok na środku siatki i znajduj liczby w określonej kolejności, bez ruszania oczami.
+          Masz 80 sekund aby zaznaczyć ich jak najwięcej.
+        </p>
+      </div>
+      <div id="content"> 
+        <div id="elements"></div>
+        <div id="grid_container"></div> 
+        <p id="timer">00-00</p> 
+      </div>
+      <button id="start_btn">Start</button>
+      <div id="summary" > 
+        <p id="summary-text"></p>
+        <button id="summary_btn">Zakończ</button>
+      </div>
+</body>
 </html>

@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RSVP</title>
+    <title>WPM</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='js/exercise1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wpm-exercise.js') }}"></script>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/exercise1.css') }}"
+      href="{{ url_for('static', filename='css/wpm-exercise.css') }}"
     />
   </head>
   <body>
-    <p id="text_content"></p>
+    <p id="text"></p>
     <button id="start_btn">Start</button>
-    <p id="time"></p>
+    <button id="next_btn">Dalej</button>
+    <p id="time">00-00</p>
+    <p id="wpm_info">Słowa na minutę: 00.00</p>
     <p id="phrase_info"></p>
     <button id="done_btn">Zakończ</button>
-    <div id="quiz_container"></div>
   </body>
 </html>

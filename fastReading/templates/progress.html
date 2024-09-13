@@ -3,28 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@1.2.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='progress.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
     <title>Document</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='progress.css') }}"
+      href="{{ url_for('static', filename='css/progress.css') }}"
     />
     
   </head>
   <body>
-    <div id="last_data">
+    <div id="last_week_container">
       <p>Dane z ostanich 7 dni</p>
-      <p id="last_mean"></p>
-      <p id="last_progress"></p>
-      <canvas id="last_chart"></canvas>
+      <p id="last_week_mean"></p>
+      <canvas id="last_week_chart"></canvas>
     </div>
-    <div id="data">
+    <div id="data_container">
         <p>Wszystkie dane</p>
         <p id="mean"></p>
-        <p id="progress"></p>
         <canvas id="chart"></canvas>
     </div>
   </body>

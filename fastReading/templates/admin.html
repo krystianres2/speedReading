@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panel administratora</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='admin.css') }}"
+      href="{{ url_for('static', filename='css/admin.css') }}"
     />
   </head>
   <body>
@@ -24,8 +24,10 @@
     </nav>
     <p id="info"></p>
     <form id="uploadForm" enctype="multipart/form-data">
+      <p>Tekst: </p>
       <input type="file" id="fileInput1" name="text" accept=".txt" />
       <p id="NumOfWords"></p>
+      <p>Quiz: </p>
       <input type="file" id="fileInput2" name="quiz" accept=".json" />
 
       <div>

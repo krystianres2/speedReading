@@ -1,0 +1,46 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.row {
+  display: contents;
+}
+
+.cell {
+  border: 1px solid #868686;
+  padding: 1px;
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.elements-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.element-cell {
+  margin: 5px;
+}
+
+#elements {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#timer {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
