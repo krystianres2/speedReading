@@ -5,6 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link
       rel="stylesheet"
@@ -12,30 +18,169 @@
     />
   </head>
   <body>
-    <nav class="navbar">
-      <ul class="nav-links-container">
-        <div class="right-links">
-          {% if current_user.is_authenticated %}
-          <li>{{ current_user.username }} - Level: {{ current_user.level }}</li>
-          {% endif %}
-          <li>
-            <a class="logout-link" href="{{ url_for('logout_page') }}"
-              >Wyloguj się</a
-            >
-          </li>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <span class="navbar-brand fs-5 fw-bold">Dashboard</span>
+
+          <!-- Toggle button for mobile -->
+          <button
+            class="navbar-toggler custom-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Collapsible content -->
+          <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto">
+              {% if current_user.is_authenticated %}
+              <li class="nav-item mx-lg-1">
+                <span class="nav-link text-white"
+                  >Nazwa użytkownika: {{ current_user.username }}</span
+                >
+              </li>
+              <li class="nav-item mx-lg-1">
+                <span class="nav-link text-white"
+                  >Punkty: {{ current_user.points }}</span
+                >
+              </li>
+              <li class="nav-item mx-lg-1">
+                <span class="nav-link text-white"
+                  >Poziom: {{ current_user.level }}</span
+                >
+              </li>
+              {% endif %}
+              <li class="nav-item mx-lg-1">
+                <a
+                  href="{{ url_for('logout_page') }}"
+                  class="btn btn-light mt-2 mt-lg-0 fw-bold bg-white"
+                  >Wyloguj się</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
-      </ul>
-    </nav>
-    <a class="nav-link" href="{{ url_for('wpm_exercise_page')}}"
-      >Testuj prędkość czytania</a
-    >
-    <a class="nav-link" href="{{ url_for('effectivity_exercise_page')}}"
-      >Sprawdź efektywność czytania</a
-    >
-    <a class="nav-link" href="{{ url_for('training_page')}}">Trening</a>
-    <a class="nav-link" href="{{ url_for('reports_page')}}">Postępy</a>
-    <a class="nav-link" href="{{ url_for('ranking_page')}}">Ranking</a>
+      </nav>
+    </header>
+    <main>
+      <div class="container my-5 mt-5">
+        <div class="row gy-5">
+          <div class="col-lg-4 col-sm-12">
+            <div class="card text-center border-0">
+              <img
+                src="{{url_for('static', filename='Images/wpm_icon.png')}}"
+                alt="WPM Icon"
+                class="card-img-top mx-auto mt-4"
+              />
+
+              <div class="card-body">
+                <h4 class="card-title fw-bold">Test WPM</h4>
+                <p class="card-text text-muted">
+                  Sprawdź jakie jest tempo twojego czytania
+                </p>
+                <a
+                  href="{{ url_for('wpm_exercise_page')}}"
+                  class="btn btn-lg btn-primary"
+                  >Rozpocznij test</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-12">
+            <div class="card text-center border-0">
+              <img
+                src="{{url_for('static', filename='Images/quiz_icon2.png')}}"
+                alt="Quiz Icon"
+                class="card-img-top mx-auto mt-4"
+              />
+
+              <div class="card-body">
+                <h4 class="card-title fw-bold">Test efektywności</h4>
+                <p class="card-text text-muted">
+                  Sprawdź ile zapamiętujesz z przeczytanego tekstu
+                </p>
+                <a
+                  href="{{ url_for('effectivity_exercise_page')}}"
+                  class="btn btn-lg btn-primary"
+                  >Rozpocznij test</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-12">
+            <div class="card text-center border-0">
+              <img
+                src="{{url_for('static', filename='Images/training_icon.png')}}"
+                alt="Training Icon"
+                class="card-img-top mx-auto mt-4"
+              />
+              <div class="card-body">
+                <h4 class="card-title fw-bold">Trening</h4>
+                <p class="card-text text-muted">
+                  Ćwicz swoje umiejętności szybkiego czytania
+                </p>
+                <a
+                  href="{{ url_for('training_page')}}"
+                  class="btn btn-lg btn-primary"
+                  >Przejdź do ćwiczeń</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12">
+            <div class="card text-center border-0">
+              <img
+                src="{{url_for('static', filename='Images/progress_icon.png')}}"
+                alt="Progress Icon"
+                class="card-img-top mx-auto mt-4"
+              />
+              <div class="card-body">
+                <h4 class="card-title fw-bold">Postępy</h4>
+                <p class="card-text text-muted">
+                  Sprawdź jak zwieksza się twoje tempo czytania
+                </p>
+                <a
+                  href="{{ url_for('progress_page')}}"
+                  class="btn btn-lg btn-primary"
+                  >Przejdź do wykresów</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-sm-12">
+            <div class="card text-center border-0">
+              <img
+                src="{{url_for('static', filename='Images/ranking_icon.png')}}"
+                alt="Ranking Icon"
+                class="card-img-top mx-auto mt-4"
+              />
+              <div class="card-body">
+                <h4 class="card-title fw-bold">Ranking</h4>
+                <p class="card-text text-muted">
+                  Porównaj swoje wyniki z innymi użytkownikami
+                </p>
+                <a
+                  href="{{ url_for('ranking_page')}}"
+                  class="btn btn-lg btn-primary"
+                  >Przejdź do rankingu</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
   </body>
-  <script></script>
 </html>
 {% endblock %}

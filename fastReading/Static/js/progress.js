@@ -12,6 +12,8 @@ $(document).ready(function () {
   let last_week_data = [];
   let all_time_data = [];
 
+console.log("progress.js");
+
   // Cache elements
   const $last_week_container = $("#last_week_container");
   const $last_week_mean = $("#last_week_mean");
@@ -21,6 +23,7 @@ $(document).ready(function () {
   const $chart = $("#chart");
 
   function loadData() {
+    console.log("progress.js");
     $.getJSON("/user/progress-data", function (data) {
       console.log(data);
       all_time_average = data[0].average_wpm;
@@ -31,6 +34,8 @@ $(document).ready(function () {
       renderData();
     });
   }
+
+  loadData();
 
   function saveDataToList(list, data) {
     data.forEach((element) => {
@@ -71,7 +76,7 @@ $(document).ready(function () {
     });
   }
 
-  function renderChart(){
+  function renderChart() {
     const ctx = $chart.get(0).getContext("2d");
     const labels = all_time_data.map((element) => element.date);
     const data = all_time_data.map((element) => element.wpm);
@@ -96,8 +101,4 @@ $(document).ready(function () {
       },
     });
   }
-    
-  
-
-  loadData();
 });

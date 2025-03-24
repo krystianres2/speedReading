@@ -1,1 +1,84 @@
+body {
+  background-color: #f0f2f5;
+}
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 12px rgba(0, 91, 187, 0.4);
+}
+.container {
+  max-width: 80rem;
+}
+@media (min-width: 768px) {
+  .container {
+    align-items: center;
+    height: 100vh;
+  }
+}
+@media (max-width: 992px) {
+  #text span {
+    font-size: 0.87rem;
+  }
+  .alert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    pointer-events: none;
+  }
 
+  .alert {
+    width: 85%; /* Smaller width for mobile */
+    padding: 1rem; /* Increase padding */
+    border-radius: 1rem; /* Rounded corners */
+    font-size: 1rem; /* Smaller font size */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Soft shadow to mimic mobile alert */
+    text-align: center; /* Center text */
+    background-color: #f8f9fa; /* Softer background color */
+    pointer-events: auto; /* Ensure the alert can still be closed */
+    margin: auto;
+    text-align: left;
+  }
+
+  /* Adjust the close button for mobile view */
+  .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  /* Optional: Center the icon better for mobile */
+  .alert svg {
+    display: none;
+  }
+}
+#text {
+  text-align: justify;
+}
+.alert-container {
+  position: fixed; /* Change from absolute to fixed */
+  top: 10px; /* Add some space from the top */
+  width: 100%;
+  z-index: 1000;
+  pointer-events: none; /* So it doesn't block clicks */
+}
+
+.alert {
+  pointer-events: auto; /* Ensure the alert can still be closed */
+}

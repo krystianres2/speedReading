@@ -9,7 +9,7 @@ import os
 import pandas as pd
 from json.decoder import JSONDecodeError
 
-from fastReading import app, db, limiter
+from fastReading import app, db
 from fastReading.models import (
     User, WpmResult, TextQuiz, QuizResult, ExerciseResult, Admin
 )
@@ -49,32 +49,32 @@ def exercise1_page():
 
 @app.route('/dashboard/training/exercise2')
 @login_required
-def grouping_page():
+def exercise2_page():
     return render_template('exercise2.html')
 
 @app.route('/dashboard/training/exercise3')
 @login_required
-def selection_page():
+def exercise3_page():
     return render_template('exercise3.html')
 
 @app.route('/dashboard/training/exercise4')
 @login_required
-def exercise6_page():
+def exercise4_page():
     return render_template('exercise4.html')
 
 @app.route('/dashboard/training/exercise5')
 @login_required
-def exercise7_page():
+def exercise5_page():
     return render_template('exercise5.html')
 
 @app.route('/dashboard/training/exercise6')
 @login_required
-def exercise8_page():
+def exercise6_page():
     return render_template('exercise6.html')
 
 @app.route('/dashboard/progress')
 @login_required
-def reports_page():
+def progress_page():
     return render_template('progress.html')
 
 @app.route('/dashboard/ranking')
@@ -84,7 +84,6 @@ def ranking_page():
 
 @app.route('/text/<string:text_type>', methods=['GET'])
 @login_required
-@limiter.limit("10 per minute")
 def get_text(text_type):
     text = TextQuiz.query.filter_by(type=text_type).order_by(func.rand()).first()
     if text is None:
@@ -97,7 +96,6 @@ def get_text(text_type):
 
 @app.route('/text-quiz/<string:type>', methods=['GET'])
 @login_required
-@limiter.limit("10 per minute")
 def get_text_quiz(type):
     text_quiz = TextQuiz.query.filter_by(type=type).order_by(func.rand()).first()
     if text_quiz is None:
@@ -113,7 +111,6 @@ def get_text_quiz(type):
 
 @app.route('/wpm-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_wpm():
     data = request.get_json()
     wpm = data.get('wpm')
@@ -124,7 +121,6 @@ def submit_wpm():
 
 @app.route('/quiz-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_quiz():
     data = request.get_json()
     result = QuizResult(score=data.get('percentage'), effectivity=data.get('effectivity'), timestamp=datetime.now(), user_id=current_user.id)
@@ -134,20 +130,24 @@ def submit_quiz():
 
 @app.route('/exercise1-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_exercise1():
     data = request.get_json()
-    score = ((data.get('percentage')/100)*20)
+    print(f"Received data: {data}")
+    
+    if not data or 'percentage' not in data:
+        return jsonify({'error': 'Invalid input'}), 400
+
+    score = ((data.get('percentage') / 100) * 20)
     result = ExerciseResult(user_id=current_user.id, exerciseId=1, score=score, timestamp=datetime.now())
     db.session.add(result)
     db.session.commit()
     current_user.points += score
     db.session.commit()
+    
     return jsonify({'redirect': url_for('main_page')})
 
 @app.route('/exercise2-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_exercise2():
     data = request.get_json()
     score = ((data.get('percentage')/100)*20)
@@ -160,7 +160,6 @@ def submit_exercise2():
 
 @app.route('/exercise3-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_exercise3():
     data = request.get_json()
     score = ((data.get('percentage')/100)*20)
@@ -173,7 +172,6 @@ def submit_exercise3():
 
 @app.route('/exercise4-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_exercise4():
     data = request.get_json()
     score = ((data.get('percentage')/100)*20)
@@ -186,7 +184,6 @@ def submit_exercise4():
 
 @app.route('/exercise5-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_exercise5():
     data = request.get_json()
     score = (data.get('gamePoints')*2)
@@ -199,7 +196,6 @@ def submit_exercise5():
 
 @app.route('/exercise6-submission', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def submit_exercise6():
     data = request.get_json()
     score = data.get('gamePoints')+(data.get('secondsLeft')/10)
@@ -212,7 +208,6 @@ def submit_exercise6():
 
 @app.route('/user/progress-data', methods=['GET'])
 @login_required
-@limiter.limit("10 per minute")
 def get_reports_data():
     seven_days_ago = (datetime.now() - timedelta(days=7)).date()
     data = WpmResult.query.filter_by(user_id=current_user.id).order_by(WpmResult.timestamp).all()
@@ -242,7 +237,6 @@ def get_reports_data():
 
 @app.route('/user/average-wpm', methods=['GET'])
 @login_required
-@limiter.limit("10 per minute")
 def get_average_wpm():
     results = WpmResult.query.filter_by(user_id=current_user.id).all()
     if not results:
@@ -252,7 +246,6 @@ def get_average_wpm():
 
 @app.route('/users-ranking', methods=['GET'])
 @login_required
-@limiter.limit("10 per minute")
 def get_ranking_data():
     users = User.query.order_by(User.points.asc()).all()
     data = [{'username': user.username, 'level': user.level, 'points': user.points} for user in users]
@@ -260,7 +253,6 @@ def get_ranking_data():
 
 @app.route('/character-pairs', methods=['GET'])
 @login_required
-@limiter.limit("10 per minute")
 def getCharacterPairs():
     pairs_file_path = 'Sources/Words/pairs.json'
 
@@ -270,7 +262,6 @@ def getCharacterPairs():
 
 @app.route('/upload-files', methods=['POST'])
 @login_required
-@limiter.limit("10 per minute")
 def upload_files():
     if session.get('admin') == True:
         if 'file1' not in request.files or 'file2' not in request.files:
@@ -334,7 +325,6 @@ def upload_files():
 
 
 @app.route('/register', methods=['GET', 'POST'])
-@limiter.limit("20 per hour")
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
@@ -342,12 +332,12 @@ def register_page():
         db.session.add(user_to_create)
         db.session.commit()
         login_user(user_to_create)
+        flash("Rejestracja się powiodła! Teraz możesz się zalogować", 'success')
         return redirect(url_for('home_page'))
 
     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
-@limiter.limit("20 per hour")
 def login_page():
     if current_user.is_authenticated:
         return redirect(url_for('logout_page'))
@@ -358,12 +348,11 @@ def login_page():
             login_user(attempted_user)
             return redirect(url_for('main_page'))
         else:
-            flash('Nazwa użytkownika lub hasło są niepoprawne, spróbuj ponownie później', 'error')
+            flash('Nazwa użytkownika lub hasło są niepoprawne, spróbuj ponownie później', 'danger')
     return render_template('login.html', form=form)
 
 
 @app.route('/admin')
-@limiter.limit("10 per minute")
 def admin_page():
     if session.get('admin') == True:
         return render_template('admin.html')

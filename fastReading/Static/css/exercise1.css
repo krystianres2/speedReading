@@ -1,115 +1,135 @@
-/* Importing Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-html {
-    font-size: 16px; /* 1rem = 16px */
+body {
+  background-color: #f0f2f5;
+}
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.container {
+  max-width: 50rem; /* Increased width for wider layout */
+}
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 12px rgba(0, 91, 187, 0.4);
+}
+.btn-disabled {
+  cursor: not-allowed;
+}
+.btn:focus {
+  box-shadow: none;
+  outline: none;
+}
+p {
+  margin: 0%;
+}
+#quiz_container .container {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 70rem;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f2f5;
-    margin: 0;
+label.box {
+  display: flex;
+  margin-top: 0.7rem;
+  padding: 0.6rem 1rem; /* Adjust padding for better spacing */
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+}
+input[type="radio"] {
+  display: none;
+}
+
+/* Add hover and checked states for answer options */
+label.box:hover {
+  background-color: #e0e7ff; /* Soft hover effect */
+}
+
+label.box .course {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+label.box .circle {
+  width: 1.5rem; /* Slightly larger circle */
+  height: 1.5rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+  border: 0.125rem solid #ddd;
+  display: inline-block;
+}
+
+/* When checked, make the borders more prominent */
+input[type="radio"]:checked + label.box {
+  border-color: #007bff;
+}
+
+input[type="radio"]:checked + label.box .circle {
+  border: 0.375rem solid #007bff;
+  background-color: #fff;
+}
+.card img {
+  width: 9rem;
+  height: 9rem;
+}
+.alert-container {
+  position: fixed; /* Change from absolute to fixed */
+  top: 10px; /* Add some space from the top */
+  width: 100%;
+  z-index: 1000;
+  pointer-events: none; /* So it doesn't block clicks */
+}
+
+.alert {
+  pointer-events: auto; /* Ensure the alert can still be closed */
+}
+@media (max-width: 992px) {
+  .alert-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-button {
-    display: inline-block;
-    padding: 0.875rem 1.75rem; /* 14px 28px */
-    text-decoration: none;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 0.5rem; /* 8px */
-    font-weight: 500;
-    font-size: 1rem; /* 16px */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin: 0.5rem; /* 8px */
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-0.125rem); /* -2px */
-}
-
-#text_content, #time, #wpm_info, #phrase_info {
-    background-color: #ffffff;
-    padding: 1rem; /* 16px */
-    border-radius: 0.5rem; /* 8px */
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
-    margin: 0.5rem 0; /* 8px 0 */
-    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 500px;
-}
+    z-index: 1000;
+    pointer-events: none;
+  }
 
-#text_content {
-    font-size: 1.25rem; /* 20px */
-    font-weight: 500;
-    color: #333;
-}
+  .alert {
+    width: 85%; /* Smaller width for mobile */
+    padding: 1rem; /* Increase padding */
+    border-radius: 1rem; /* Rounded corners */
+    font-size: 1rem; /* Smaller font size */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Soft shadow to mimic mobile alert */
+    text-align: center; /* Center text */
+    background-color: #f8f9fa; /* Softer background color */
+    pointer-events: auto; /* Ensure the alert can still be closed */
+    margin: auto;
+    text-align: left;
+  }
 
-#time, #wpm_info, #phrase_info {
-    font-size: 1rem; /* 16px */
-    color: #333;
-}
+  /* Adjust the close button for mobile view */
+  .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 
-#done_btn {
+  /* Optional: Center the icon better for mobile */
+  .alert svg {
     display: none;
-}
-
-#quiz-container {
-    background-color: #ffffff;
-    padding: 2rem; /* 32px */
-    border-radius: 0.75rem; /* 12px */
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
-    margin: 1rem 0; /* 16px 0 */
-    width: 100%;
-    max-width: 600px;
-}
-
-.question {
-    margin-bottom: 1.5rem; /* 24px */
-}
-
-.option {
-    margin-bottom: 0.5rem; /* 8px */
-}
-
-#done-button, #finish-button {
-    display: inline-block;
-    padding: 0.875rem 1.75rem; /* 14px 28px */
-    text-decoration: none;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 0.5rem; /* 8px */
-    font-weight: 500;
-    font-size: 1rem; /* 16px */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin: 0.5rem; /* 8px */
-    cursor: pointer;
-}
-
-#done-button:hover, #finish-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-0.125rem); /* -2px */
-}
-
-button:disabled {
-    background-color: #cccccc;
-    color: #666666;
-    cursor: not-allowed;
-}
-
-@media (min-width: 600px) {
-    body {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+  }
 }

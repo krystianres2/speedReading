@@ -1,118 +1,142 @@
-/* Importing Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-html {
-  font-size: 16px;
-}
-
 body {
-  font-family: 'Roboto', sans-serif;
   background-color: #f0f2f5;
-  margin: 0;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
 }
-
-p {
-  font-size: 1rem;
-  color: #333;
-  margin: 0.5rem 0;
-  text-align: center;
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
-.question, .question p {
-  text-align: left;
-}
-
-#exercise_description {
-  max-width: 600px;
-  margin-bottom: 1rem;
-}
-
-#text_content {
-  max-width: 600px;
-  margin-bottom: 1rem;
-}
-
-button {
-  display: inline-block;
-  padding: 0.875rem 1.75rem;
-  text-decoration: none;
-  color: #ffffff;
+.btn-primary {
   background-color: #007bff;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  margin: 0.5rem;
-  cursor: pointer;
+  border-color: #007bff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-
-button:hover {
+.btn-primary:hover {
   background-color: #0056b3;
-  transform: translateY(-0.125rem);
+  box-shadow: 0 4px 12px rgba(0, 91, 187, 0.4);
 }
+#text span {
+  line-height: 3;
+}
+#text {
+  text-align: justify;
+  margin: 0;
+}
+.container {
+  max-width: 80rem;
+}
+@media (min-width: 768px) {
+  .container {
+    align-items: center;
+    height: 100vh;
+  }
+}
+@media (max-width: 992px) {
+  #text span {
+    font-size: 0.87rem;
+  }
+  .alert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    pointer-events: none;
+  }
 
+  .alert {
+    width: 85%; /* Smaller width for mobile */
+    padding: 1rem; /* Increase padding */
+    border-radius: 1rem; /* Rounded corners */
+    font-size: 1rem; /* Smaller font size */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Soft shadow to mimic mobile alert */
+    text-align: center; /* Center text */
+    background-color: #f8f9fa; /* Softer background color */
+    pointer-events: auto; /* Ensure the alert can still be closed */
+    margin: auto;
+    text-align: left;
+  }
+
+  /* Adjust the close button for mobile view */
+  .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  /* Optional: Center the icon better for mobile */
+  .alert svg {
+    display: none;
+  }
+}
 .cover {
-  background-color: #0077ff;
-  color: #0077ff;
-  transition: color 1s;
-  border-radius: 5px;
-  user-select: none;
+  visibility: hidden;
+  transition: opacity 0.6s ease-in-out;
 }
-
-#time {
-  font-size: 1.25rem;
-  color: #007bff;
-  margin-bottom: 1rem;
-}
-
-#quiz-container {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-  margin: 1rem 0;
+.alert-container {
+  position: fixed; /* Change from absolute to fixed */
+  top: 10px; /* Add some space from the top */
   width: 100%;
-  max-width: 600px;
+  z-index: 1000;
+  pointer-events: none; /* So it doesn't block clicks */
 }
 
-.question {
-  margin-bottom: 1.5rem;
+.alert {
+  pointer-events: auto; /* Ensure the alert can still be closed */
+}
+#quiz_container .container {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 70rem;
 }
 
-.option {
-  margin-bottom: 0.5rem;
+label.box {
+  display: flex;
+  margin-top: 0.7rem;
+  padding: 0.6rem 1rem; /* Adjust padding for better spacing */
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ddd;
 }
-
-.option input {
-  margin-right: 0.5rem;
-}
-
-#done_btn, #done-button, #finish-button {
+input[type="radio"] {
   display: none;
 }
 
-#done-button, #finish-button {
-  display: inline-block;
-  padding: 0.875rem 1.75rem;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  margin: 0.5rem;
-  cursor: pointer;
+/* Add hover and checked states for answer options */
+label.box:hover {
+  background-color: #e0e7ff; /* Soft hover effect */
 }
 
-#done-button:hover, #finish-button:hover {
-  background-color: #0056b3;
-  transform: translateY(-0.125rem);
+label.box .course {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+label.box .circle {
+  width: 1.5rem; /* Slightly larger circle */
+  height: 1.5rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+  border: 0.125rem solid #ddd;
+  display: inline-block;
+}
+
+/* When checked, make the borders more prominent */
+input[type="radio"]:checked + label.box {
+  border-color: #007bff;
+}
+
+input[type="radio"]:checked + label.box .circle {
+  border: 0.375rem solid #007bff;
+  background-color: #fff;
 }

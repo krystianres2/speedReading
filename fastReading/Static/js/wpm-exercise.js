@@ -1,12 +1,14 @@
 $(document).ready(function () {
   // Cache commonly used selectors
   const $startButton = $("#start_btn");
-  const $nextButton = $("#next_btn").hide();
+  const $nextButton = $("#next_btn");
   const $doneButton = $("#done_btn").hide();
   const $textContent = $("#text");
   const $phraseInfo = $("#phrase_info");
   const $timeDisplay = $("#time");
   const $wpmInfo = $("#wpm_info");
+  const $startButtonContainer = $("#start_btn_container");
+  const $nextButtonContainer = $("#next_btn_container").hide();
 
   let text = []; // list with words
   let wordIndex = 0;
@@ -42,8 +44,8 @@ $(document).ready(function () {
   }
 
   function startExercise() {
-    $startButton.hide();
-    $nextButton.show();
+    $startButtonContainer.remove();
+    $nextButtonContainer.show();
     enableButton($nextButton);
     startTimer();
     startWpmCalculation();
@@ -92,7 +94,7 @@ $(document).ready(function () {
     const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
     const minutes = String(Math.floor(elapsedSeconds / 60)).padStart(2, "0");
     const seconds = String(elapsedSeconds % 60).padStart(2, "0");
-    $timeDisplay.text(`${minutes}-${seconds}`);
+    $timeDisplay.text(`Czas: ${minutes}-${seconds}`);
   }
 
   function stopTimer() {
@@ -138,7 +140,7 @@ $(document).ready(function () {
   }
 
   function disableButton($button) {
-    $button.prop("disabled", true);
+    $button.prop("disabled", true).addClass("btn-disabled");
   }
 
   // Start the process by loading text

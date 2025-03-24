@@ -7,15 +7,12 @@ $(document).ready(function () {
   let chosenWordCount = 0;
 
   // DOM elements caching
-  const $start = $("#start");
-  const $startBtn = $("#startBtn");
+  const $startBtn = $("#start_btn");
   const $wordToSelect = $("#wordToSelect");
-  const $textContent = $("#textContent");
+  const $textContent = $("#text");
   const $counter = $("#counter");
-  const $timer = $("#timer");
-  const $summary = $("#summary");
-  const $summaryText = $("#summaryText");
-  const $summaryBtn = $("#summaryBtn");
+  const $timer = $("#time");
+  const $alert = $("#alert");
 
   // Initialization
   function init() {
@@ -27,8 +24,10 @@ $(document).ready(function () {
   function loadText() {
     $.getJSON("/text/medium")
       .done((data) => {
-        text = data.text;
+        text = data;
+        console.log(data);
         chosenWord = chooseRandomWordFromText(text);
+        $counter.text(`Ilość zaznaczonych wystąpień słowa "${chosenWord}": 0`);
         if (!chosenWord) {
           console.log("Brak słowa, które występuje co najmniej 5 razy.");
           return;
@@ -44,17 +43,15 @@ $(document).ready(function () {
   // Set up event handlers
   function setupEventHandlers() {
     $startBtn.click(() => {
-      $start.remove();
       displayText(text);
       startTimer();
+      $alert.remove();
+      $startBtn.remove();
     });
-
-    $summaryBtn.click(submit);
   }
 
   // Display the start screen with the chosen word
   function displayStart() {
-    $summary.hide();
     $wordToSelect.text("Słowo: " + chosenWord);
   }
 
@@ -64,7 +61,7 @@ $(document).ready(function () {
 
     $textContent.empty();
     $counter.text(`Ilość zaznaczonych wystąpień słowa "${chosenWord}": 0`);
-    $timer.text("00-00");
+    $timer.text("Czas: 00-00");
 
     words.forEach((word) => {
       const $span = $("<span>")
@@ -90,6 +87,7 @@ $(document).ready(function () {
       if (index !== -1) clickedWords.splice(index, 1);
     } else {
       $span.css("color", "red");
+      $span.addClass("fw-bold");
       clickedWords.push(clickedWord);
     }
 
@@ -105,7 +103,7 @@ $(document).ready(function () {
     });
 
     const eligibleWords = Object.keys(wordCounts).filter(
-      (word) => wordCounts[word] >= 5
+      (word) => wordCounts[word] >= 4
     );
 
     if (eligibleWords.length === 0) return null;
@@ -135,7 +133,7 @@ $(document).ready(function () {
         .padStart(2, "0");
       const seconds = (totalSeconds % 60).toString().padStart(2, "0");
 
-      $timer.text(`${minutes}-${seconds}`);
+      $timer.text(`Czas: ${minutes}-${seconds}`);
 
       if (totalSeconds >= 60) {
         stopTimer();
@@ -149,13 +147,62 @@ $(document).ready(function () {
     clearInterval(intervalId);
   }
 
-  // Display the summary
   function showSummary() {
-    $("body > *").hide();
-    $summary.show();
-    $summaryText.text(
-      `Zaznaczyłeś ${count} wystąpień słowa "${chosenWord}" na ${chosenWordCount} możliwych.`
+    // Remove the quiz container
+    let percentage = (count / chosenWordCount) * 100;
+    $("body").empty();
+
+    // Create the result card container
+    let resultContainer = $("<div>").addClass(
+      "container d-flex align-items-center justify-content-center vh-100"
     );
+
+    // Create the card element
+    let card = $("<div>")
+      .addClass("card text-center p-4")
+      .css("width", "22rem")
+      .appendTo(resultContainer);
+
+    // Add the image to the card
+    if (percentage >= 70) {
+      $("<img>")
+        .attr("src", happyFaceUrl)
+        .attr("alt", "")
+        .addClass("card-img-top mx-auto mt-3")
+        .appendTo(card);
+    } else {
+      $("<img>")
+        .attr("src", sadFaceUrl)
+        .attr("alt", "")
+        .addClass("card-img-top mx-auto mt-3")
+        .appendTo(card);
+    }
+    // Create the card body
+    let cardBody = $("<div>").addClass("card-body pt-4").appendTo(card);
+
+    // Add the card title
+    $("<h4>").addClass("card-title").text("Podsumowanie").appendTo(cardBody);
+
+    // Add the correct answers text
+    $("<p>")
+      .addClass("card-text fs-5 mb-3")
+      .html(
+        `Udało ci się zaznaczyć: <strong>${count}/${chosenWordCount} wystąpień</strong>`
+      )
+      .appendTo(cardBody);
+
+    // Add the exit button
+    $("<a>")
+      .attr("href", "#")
+      .addClass("btn btn-primary btn-lg px-4")
+      .text("Wyjdź")
+      .appendTo(cardBody)
+      .click(function () {
+        submit();
+      });
+
+    // Append the result container to the body
+    $("body").append(resultContainer);
   }
 
   // Submit the result

@@ -1,115 +1,82 @@
-/* Importing Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-html {
-    font-size: 16px; /* 1rem = 16px */
-}
-
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f2f5;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  background-color: #f0f2f5;
+}
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.container {
+  max-width: 50rem; /* Increased width for wider layout */
+}
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 12px rgba(0, 91, 187, 0.4);
+}
+.btn-disabled {
+  cursor: not-allowed;
+}
+.btn:focus {
+  box-shadow: none;
+  outline: none;
+}
+p {
+  margin: 0%;
+}
+#quiz_container .container {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 70rem;
 }
 
-button {
-    display: inline-block;
-    padding: 0.875rem 1.75rem; /* 14px 28px */
-    text-decoration: none;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 0.5rem; /* 8px */
-    font-weight: 500;
-    font-size: 1rem; /* 16px */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin: 0.5rem; /* 8px */
-    cursor: pointer;
+label.box {
+  display: flex;
+  margin-top: 0.7rem;
+  padding: 0.6rem 1rem; /* Adjust padding for better spacing */
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+}
+input[type="radio"] {
+  display: none;
 }
 
-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-0.125rem); /* -2px */
+/* Add hover and checked states for answer options */
+label.box:hover {
+  background-color: #e0e7ff; /* Soft hover effect */
 }
 
-#text, #time, #wpm_info, #phrase_info {
-    background-color: #ffffff;
-    padding: 1rem; /* 16px */
-    border-radius: 0.5rem; /* 8px */
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
-    margin: 0.5rem 0; /* 8px 0 */
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
+label.box .course {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+label.box .circle {
+  width: 1.5rem; /* Slightly larger circle */
+  height: 1.5rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+  border: 0.125rem solid #ddd;
+  display: inline-block;
 }
 
-#text {
-    font-size: 1.25rem; /* 20px */
-    font-weight: 500;
-    color: #333;
+/* When checked, make the borders more prominent */
+input[type="radio"]:checked + label.box {
+  border-color: #007bff;
 }
 
-#time, #wpm_info, #phrase_info {
-    font-size: 1rem; /* 16px */
-    color: #333;
+input[type="radio"]:checked + label.box .circle {
+  border: 0.375rem solid #007bff;
+  background-color: #fff;
 }
-
-#done_btn {
-    display: none;
-}
-
-#quiz_container {
-    background-color: #ffffff;
-    padding: 2rem; /* 32px */
-    border-radius: 0.75rem; /* 12px */
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
-    margin: 1rem 0; /* 16px 0 */
-    width: 100%;
-    max-width: 600px;
-}
-
-.question {
-    margin-bottom: 1.5rem; /* 24px */
-}
-
-.option {
-    margin-bottom: 0.5rem; /* 8px */
-}
-
-#done_btn, #finish-button {
-    display: inline-block;
-    padding: 0.875rem 1.75rem; /* 14px 28px */
-    text-decoration: none;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 0.5rem; /* 8px */
-    font-weight: 500;
-    font-size: 1rem; /* 16px */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin: 0.5rem; /* 8px */
-    cursor: pointer;
-}
-
-#done_btn:hover, #finish-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-0.125rem); /* -2px */
-}
-
-button:disabled {
-    background-color: #cccccc;
-    color: #666666;
-    cursor: not-allowed;
-}
-
-@media (min-width: 600px) {
-    body {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+.card img {
+  width: 9rem;
+  height: 9rem;
 }
