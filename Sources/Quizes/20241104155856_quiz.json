@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Co Anna znalazła podczas swojej wycieczki?",
+            "options": [
+                "Zaginione miasto.",
+                "Stary zamek.",
+                "Drewnianą chatkę.",
+                "Rzekę."
+            ],
+            "correct_answer": "Drewnianą chatkę."
+        },
+        {
+            "question": "Co znajdowało się na półkach w chatce?",
+            "options": [
+                "Nowoczesne urządzenia.",
+                "Zakurzona książka.",
+                "Świeże jedzenie.",
+                "Narzędzia ogrodnicze."
+            ],
+            "correct_answer": "Zakurzona książka."
+        },
+        {
+            "question": "Jakie uczucie towarzyszyło Annie w chatce?",
+            "options": [
+                "Strach.",
+                "Dziwne ciepło.",
+                "Smutek.",
+                "Radość."
+            ],
+            "correct_answer": "Dziwne ciepło."
+        },
+        {
+            "question": "Dlaczego Anna postanowiła zbadać chatkę?",
+            "options": [
+                "Była zmęczona.",
+                "Szukala miejsca do ukrycia.",
+                "Chciała dowiedzieć się, kto tam mieszkał.",
+                "Szukała skarbu."
+            ],
+            "correct_answer": "Chciała dowiedzieć się, kto tam mieszkał."
+        },
+        {
+            "question": "Co Anna postanowiła zrobić po odkryciu chatki?",
+            "options": [
+                "Natychmiast opuścić las.",
+                "Napisać książkę o swoim odkryciu.",
+                "Dokładnie zbadać każdy zakamarek chatki.",
+                "Wezwać przyjaciół."
+            ],
+            "correct_answer": "Dokładnie zbadać każdy zakamarek chatki."
+        }
+    ]
+}

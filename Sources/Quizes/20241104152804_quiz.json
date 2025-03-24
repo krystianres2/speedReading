@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Co zaniepokoiło Ewę w zachowaniu jednej z kóz?",
+            "options": [
+                "Koza była ospała i nie chciała jeść.",
+                "Koza biegała wokół gospodarstwa.",
+                "Koza wspinała się na drzewa.",
+                "Koza jadła za dużo trawy."
+            ],
+            "correct_answer": "Koza była ospała i nie chciała jeść."
+        },
+        {
+            "question": "Co robił Jan, gdy Ewa opiekowała się kozą?",
+            "options": [
+                "Zbierał jabłka w sadzie.",
+                "Karmił kury.",
+                "Siedział na werandzie.",
+                "Sprzątał stodołę."
+            ],
+            "correct_answer": "Zbierał jabłka w sadzie."
+        },
+        {
+            "question": "Jakie owoce Jan zbierał w sadzie?",
+            "options": [
+                "Gruszki",
+                "Śliwki",
+                "Jabłka",
+                "Czereśnie"
+            ],
+            "correct_answer": "Jabłka"
+        },
+        {
+            "question": "Co przygotowali Ewa i Jan wieczorem?",
+            "options": [
+                "Obiad",
+                "Świeży sok jabłkowy",
+                "Ciasto",
+                "Kolację dla przyjaciół"
+            ],
+            "correct_answer": "Świeży sok jabłkowy"
+        },
+        {
+            "question": "Co Ewa zrozumiała, siedząc na werandzie z Janem?",
+            "options": [
+                "Jak ważne jest życie na farmie blisko natury.",
+                "Że chce sprzedać farmę.",
+                "Jak dużo pracy wymaga prowadzenie gospodarstwa.",
+                "Że chce kupić więcej zwierząt."
+            ],
+            "correct_answer": "Jak ważne jest życie na farmie blisko natury."
+        }
+    ]
+}

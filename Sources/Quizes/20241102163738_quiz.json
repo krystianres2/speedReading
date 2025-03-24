@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Co było pasją Marcina?",
+            "options": [
+                "Biologia.",
+                "Astronomia.",
+                "Matematyka.",
+                "Geografia."
+            ],
+            "correct_answer": "Astronomia."
+        },
+        {
+            "question": "Co kupił Marcin, aby lepiej obserwować niebo?",
+            "options": [
+                "Mikroskop.",
+                "Lornetkę.",
+                "Kompas.",
+                "Teleskop."
+            ],
+            "correct_answer": "Teleskop."
+        },
+        {
+            "question": "Co Marcin odkrył podczas swoich obserwacji?",
+            "options": [
+                "Nową planetę.",
+                "Nową kometę.",
+                "Nieznany gwiazdozbiór.",
+                "Pierścień Saturna."
+            ],
+            "correct_answer": "Nową kometę."
+        },
+        {
+            "question": "Jak Marcin zareagował na swoje odkrycie?",
+            "options": [
+                "Był zaniepokojony.",
+                "Zignorował to.",
+                "Był podekscytowany.",
+                "Zaczął się martwić."
+            ],
+            "correct_answer": "Był podekscytowany."
+        },
+        {
+            "question": "Do kogo Marcin planował wysłać swoje obserwacje?",
+            "options": [
+                "Do kolegi.",
+                "Do szkoły.",
+                "Do lokalnego obserwatorium.",
+                "Do gazety."
+            ],
+            "correct_answer": "Do lokalnego obserwatorium."
+        }
+    ]
+}

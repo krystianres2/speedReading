@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Kim chciał zostać Piotr?",
+            "options": [
+                "Aktorem",
+                "Muzykiem",
+                "Lekarzem",
+                "Nauczycielem"
+            ],
+            "correct_answer": "Muzykiem"
+        },
+        {
+            "question": "Gdzie Piotr grał na gitarze każdego dnia?",
+            "options": [
+                "W szkole",
+                "W parku",
+                "W metrze",
+                "W domu"
+            ],
+            "correct_answer": "W parku"
+        },
+        {
+            "question": "Kto zauważył talent Piotra?",
+            "options": [
+                "Przechodzień",
+                "Znany producent muzyczny",
+                "Przyjaciel",
+                "Nauczyciel muzyki"
+            ],
+            "correct_answer": "Znany producent muzyczny"
+        },
+        {
+            "question": "Co zaproponował producent Piotrowi?",
+            "options": [
+                "Koncert w parku",
+                "Naukę gry na gitarze",
+                "Nagranie demo w profesjonalnym studio",
+                "Pracę w sklepie muzycznym"
+            ],
+            "correct_answer": "Nagranie demo w profesjonalnym studio"
+        },
+        {
+            "question": "Co stało się z muzyką Piotra po nagraniu demo?",
+            "options": [
+                "Stała się popularna",
+                "Została zapomniana",
+                "Nie spodobała się nikomu",
+                "Została skrytykowana"
+            ],
+            "correct_answer": "Stała się popularna"
+        }
+    ]
+}

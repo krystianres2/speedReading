@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Gdzie mieszkała Kasia?",
+            "options": [
+                "W dużym mieście.",
+                "Na skraju gór.",
+                "Nad morzem.",
+                "W lesie."
+            ],
+            "correct_answer": "Na skraju gór."
+        },
+        {
+            "question": "Co Kasia uwielbiała robić?",
+            "options": [
+                "Czytać książki.",
+                "Wspinaczki górskie.",
+                "Grać w piłkę.",
+                "Gotować."
+            ],
+            "correct_answer": "Wspinaczki górskie."
+        },
+        {
+            "question": "Na co natknęła się Kasia podczas jednej ze swoich wypraw?",
+            "options": [
+                "Na starą chatkę.",
+                "Na zapomnianą jaskinię.",
+                "Na zaginione zwierzę.",
+                "Na opuszczony zamek."
+            ],
+            "correct_answer": "Na zapomnianą jaskinię."
+        },
+        {
+            "question": "Co Kasia znalazła w głębi jaskini?",
+            "options": [
+                "Stary dziennik.",
+                "Złote monety.",
+                "Starą mapę.",
+                "Zaginione zwierzę."
+            ],
+            "correct_answer": "Starą mapę."
+        },
+        {
+            "question": "Dokąd prowadziła mapa, którą znalazła Kasia?",
+            "options": [
+                "Do ukrytego skarbu.",
+                "Do opuszczonego zamku.",
+                "Do podwodnej jaskini.",
+                "Do starego miasta."
+            ],
+            "correct_answer": "Do ukrytego skarbu."
+        }
+    ]
+}

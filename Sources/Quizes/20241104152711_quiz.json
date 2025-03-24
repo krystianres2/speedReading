@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Co skłoniło Martę do zbadania opuszczonego domu?",
+            "options": [
+                "Anonimowa wiadomość o dziwnych światłach.",
+                "Chęć zakupu nieruchomości.",
+                "Poszukiwanie skarbu.",
+                "Zaproszenie na imprezę."
+            ],
+            "correct_answer": "Anonimowa wiadomość o dziwnych światłach."
+        },
+        {
+            "question": "Jakie wyposażenie miała ze sobą Marta?",
+            "options": [
+                "Latarkę i aparat fotograficzny.",
+                "Broń i mapę.",
+                "Komputer i telefon.",
+                "Jedzenie i wodę."
+            ],
+            "correct_answer": "Latarkę i aparat fotograficzny."
+        },
+        {
+            "question": "Co Marta znalazła w piwnicy domu?",
+            "options": [
+                "Skład zbrojny.",
+                "Tajemnicze urządzenie emitujące pulsujące światło.",
+                "Kryjówkę bezdomnych.",
+                "Stare meble i książki."
+            ],
+            "correct_answer": "Tajemnicze urządzenie emitujące pulsujące światło."
+        },
+        {
+            "question": "Jakie uczucia towarzyszyły Marcie podczas badania domu?",
+            "options": [
+                "Radość i ekscytacja.",
+                "Strach i adrenalina.",
+                "Smutek i melancholia.",
+                "Złość i irytacja."
+            ],
+            "correct_answer": "Strach i adrenalina."
+        },
+        {
+            "question": "Co postanowiła zrobić Marta po odkryciu urządzenia?",
+            "options": [
+                "Spróbować je wyłączyć.",
+                "Zrobić zdjęcia i zbadać sprawę dogłębniej.",
+                "Uciec jak najszybciej.",
+                "Poinformować policję."
+            ],
+            "correct_answer": "Zrobić zdjęcia i zbadać sprawę dogłębniej."
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "questions": [
+      {
+        "question": "Co bohater znalazł na strychu?",
+        "options": [
+          "Stare meble.",
+          "Pudełko z pamiątkami.",
+          "Porzucone zwierzę.",
+          "Nowoczesne urządzenia."
+        ],
+        "correct_answer": "Pudełko z pamiątkami."
+      },
+      {
+        "question": "Jakie przedmioty były w pudełku?",
+        "options": [
+          "Pieniądze i biżuteria.",
+          "Narzędzia ogrodnicze.",
+          "Listy, fotografie i zabawki.",
+          "Stare ubrania."
+        ],
+        "correct_answer": "Listy, fotografie i zabawki."
+      },
+      {
+        "question": "Która książka była ulubioną bohatera w dzieciństwie?",
+        "options": [
+          "Książka, którą czytała mu matka.",
+          "Książka, którą dostał od dziadka.",
+          "Podręcznik szkolny.",
+          "Książka kucharska."
+        ],
+        "correct_answer": "Książka, którą czytała mu matka."
+      },
+      {
+        "question": "Jakie uczucia wywołały u bohatera te przedmioty?",
+        "options": [
+          "Smutek.",
+          "Złość.",
+          "Wzruszenie.",
+          "Zdziwienie."
+        ],
+        "correct_answer": "Wzruszenie."
+      },
+      {
+        "question": "Co bohater zrobił po znalezieniu pudełka?",
+        "options": [
+          "Zaczął szukać dalszych skarbów.",
+          "Udał się do kuchni.",
+          "Otworzył okno na strychu.",
+          "Usiadł na podłodze i wspominał przeszłość."
+        ],
+        "correct_answer": "Usiadł na podłodze i wspominał przeszłość."
+      }
+    ]
+  }
+  

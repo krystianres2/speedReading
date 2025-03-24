@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Co Anna odkryła podczas jednej ze swoich wypraw do lasu?",
+            "options": [
+                "Nowy gatunek zwierzęcia.",
+                "Niezwykłą roślinę o niebieskich liściach.",
+                "Stary, zapomniany dom.",
+                "Źródło wody."
+            ],
+            "correct_answer": "Niezwykłą roślinę o niebieskich liściach."
+        },
+        {
+            "question": "Jakie właściwości miała odkryta przez Annę roślina?",
+            "options": [
+                "Była trująca.",
+                "Miała właściwości lecznicze.",
+                "Była jadalna.",
+                "Była dekoracyjna."
+            ],
+            "correct_answer": "Miała właściwości lecznicze."
+        },
+        {
+            "question": "Co Anna zrobiła, gdy usłyszała dziwne dźwięki w ogrodzie?",
+            "options": [
+                "Zawołała swojego psa.",
+                "Zadzwoniła na policję.",
+                "Ukryła się w domu.",
+                "Zignorowała dźwięki."
+            ],
+            "correct_answer": "Zawołała swojego psa."
+        },
+        {
+            "question": "Jak Anna zabezpieczyła swoje odkrycie?",
+            "options": [
+                "Ukryła roślinę w piwnicy.",
+                "Skontaktowała się z lokalnym uniwersytetem.",
+                "Sprzedała roślinę.",
+                "Zniszczyła roślinę."
+            ],
+            "correct_answer": "Skontaktowała się z lokalnym uniwersytetem."
+        },
+        {
+            "question": "Co stało się z Anną po opublikowaniu jej badań?",
+            "options": [
+                "Została zapomniana.",
+                "Stała się znaną postacią w świecie nauki.",
+                "Przeprowadziła się do innego miasta.",
+                "Zrezygnowała z badań."
+            ],
+            "correct_answer": "Stała się znaną postacią w świecie nauki."
+        }
+    ]
+}

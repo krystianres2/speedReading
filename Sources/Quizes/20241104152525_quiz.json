@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Kim jest główny bohater tekstu?",
+            "options": [
+                "Studentem",
+                "Naukowcem",
+                "Lekarzem",
+                "Inżynierem"
+            ],
+            "correct_answer": "Naukowcem"
+        },
+        {
+            "question": "Czym zajmował się Adam?",
+            "options": [
+                "Prototypem maszyny do produkcji żywności",
+                "Projektem nowoczesnego komputera",
+                "Prototypem silnika na zimną fuzję",
+                "Projektem nowoczesnego budynku"
+            ],
+            "correct_answer": "Prototypem silnika na zimną fuzję"
+        },
+        {
+            "question": "Co wydarzyło się w laboratorium?",
+            "options": [
+                "Wszystko poszło niezgodnie z planem",
+                "Eksperyment zakończył się sukcesem",
+                "Zespół opuścił laboratorium",
+                "Ekrany wyświetliły czerwone światło"
+            ],
+            "correct_answer": "Eksperyment zakończył się sukcesem"
+        },
+        {
+            "question": "Jakie możliwości otworzył eksperyment?",
+            "options": [
+                "Tworzenia nowoczesnych komputerów",
+                "Korzystania z nieograniczonej, czystej energii",
+                "Budowania nowoczesnych budynków",
+                "Produkcji żywności"
+            ],
+            "correct_answer": "Korzystania z nieograniczonej, czystej energii"
+        },
+        {
+            "question": "Co odczuli Adam i jego zespół po zakończonym eksperymencie?",
+            "options": [
+                "Strach",
+                "Smutek",
+                "Radość i dumę",
+                "Złość"
+            ],
+            "correct_answer": "Radość i dumę"
+        }
+    ]
+}

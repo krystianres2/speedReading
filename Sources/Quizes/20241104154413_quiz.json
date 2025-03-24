@@ -1,0 +1,54 @@
+{
+    "questions": [
+        {
+            "question": "Co Marek zauważył na horyzoncie podczas jednej z porannych wypraw?",
+            "options": [
+                "Statek piracki.",
+                "Błyszczący obiekt unoszący się na wodzie.",
+                "Delfiny skaczące nad wodą.",
+                "Zbliżającą się burzę."
+            ],
+            "correct_answer": "Błyszczący obiekt unoszący się na wodzie."
+        },
+        {
+            "question": "Co Marek znalazł w skrzyni, którą wyciągnął na pokład swojej łodzi?",
+            "options": [
+                "Stare dokumenty.",
+                "Mapę skarbu.",
+                "Złote monety.",
+                "List miłosny."
+            ],
+            "correct_answer": "Mapę skarbu."
+        },
+        {
+            "question": "Dokąd prowadziła mapa, którą Marek znalazł w skrzyni?",
+            "options": [
+                "Do opuszczonego zamku.",
+                "Do tajemniczej wyspy.",
+                "Do podwodnej jaskini.",
+                "Do starego miasta."
+            ],
+            "correct_answer": "Do tajemniczej wyspy."
+        },
+        {
+            "question": "Co Marek znalazł w starej, opuszczonej świątyni na wyspie?",
+            "options": [
+                "Stare książki.",
+                "Skrzynię pełną złota i drogocennych kamieni.",
+                "Zaginioną załogę.",
+                "Zwierzęta."
+            ],
+            "correct_answer": "Skrzynię pełną złota i drogocennych kamieni."
+        },
+        {
+            "question": "Jakie było życie Marka po powrocie do miasteczka ze skarbem?",
+            "options": [
+                "Stał się bohaterem i zyskał szacunek mieszkańców.",
+                "Został zapomniany przez wszystkich.",
+                "Przeprowadził się do innego miasta.",
+                "Zrezygnował z żeglowania."
+            ],
+            "correct_answer": "Stał się bohaterem i zyskał szacunek mieszkańców."
+        }
+    ]
+}
